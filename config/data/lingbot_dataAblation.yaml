@@ -1,0 +1,6 @@
+datset_configs:
+
+  -
+    dataset_name: lingbot_captionV3
+    image_dir: /opt/huawei/dataset/wilson/BOOGU/photomaster/training_data/lingbot/v2_captionV3/dit_qwen/zip
+    annotation_dir: /opt/huawei/dataset/wilson/BOOGU/photomaster/training_data/lingbot/v2_captionV3/dit_qwen/parquet

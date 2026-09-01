@@ -1,0 +1,21 @@
+datset_configs:
+
+  -
+    dataset_name: lingbot_captionV3
+    image_dir: /opt/huawei/dataset/wilson/BOOGU/photomaster/training_data/lingbot/v2_captionV3/dit_qwen/zip
+    annotation_dir: /opt/huawei/dataset/wilson/BOOGU/photomaster/training_data/lingbot/v2_captionV3/dit_qwen/parquet
+
+  -
+    dataset_name: forward_captionV3
+    image_dir: /opt/huawei/dataset/wilson/BOOGU/photomaster/training_data/forwardPipeline/v2_captionV3/dit_qwen/zip
+    annotation_dir: /opt/huawei/dataset/wilson/BOOGU/photomaster/training_data/forwardPipeline/v2_captionV3/dit_qwen/parquet
+
+  -
+    dataset_name: forward_mti1
+    image_dir: /opt/huawei/dataset/wilson/BOOGU/photomaster/training_data/forwardPipeline/v3_mti1/dit_qwen/zip
+    annotation_dir: /opt/huawei/dataset/wilson/BOOGU/photomaster/training_data/forwardPipeline/v3_mti1/dit_qwen/parquet
+
+  -
+    dataset_name: forward_mti2
+    image_dir: /opt/huawei/dataset/wilson/BOOGU/photomaster/training_data/forwardPipeline/v4_mti2/dit_qwen/zip
+    annotation_dir: /opt/huawei/dataset/wilson/BOOGU/photomaster/training_data/forwardPipeline/v4_mti2/dit_qwen/parquet

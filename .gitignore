@@ -1,0 +1,14 @@
+# Training outputs
+outputs/
+models/
+
+# Slurm job logs
+*.log
+qwen_edit_train_*.log
+slurm-*.out
+
+# Python
+__pycache__/
+*.py[cod]
+.ruff_cache/
+.ipynb_checkpoints/

@@ -1,0 +1,16 @@
+datset_configs:
+
+  -
+    dataset_name: forward_v2_captionV3_ablation_set
+    image_dir: /opt/huawei/dataset/wilson/BOOGU/photomaster/training_data/forwardPipeline/clean_data/ablation_set/v2_captionV3/dit_qwen/zip
+    annotation_dir: /opt/huawei/dataset/wilson/BOOGU/photomaster/training_data/forwardPipeline/clean_data/ablation_set/v2_captionV3/dit_qwen/parquet
+
+  -
+    dataset_name: forward_v3_mtp1_ablation_set
+    image_dir: /opt/huawei/dataset/wilson/BOOGU/photomaster/training_data/forwardPipeline/clean_data/ablation_set/v3_mti1/dit_qwen/zip
+    annotation_dir: /opt/huawei/dataset/wilson/BOOGU/photomaster/training_data/forwardPipeline/clean_data/ablation_set/v3_mti1/dit_qwen/parquet
+
+  -
+    dataset_name: forward_v4_mtp2_ablation_set
+    image_dir: /opt/huawei/dataset/wilson/BOOGU/photomaster/training_data/forwardPipeline/clean_data/ablation_set/v4_mti2/dit_qwen/zip
+    annotation_dir: /opt/huawei/dataset/wilson/BOOGU/photomaster/training_data/forwardPipeline/clean_data/ablation_set/v4_mti2/dit_qwen/parquet
