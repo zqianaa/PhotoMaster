@@ -46,16 +46,32 @@ exactly two levels below the bench root. A flatter layout breaks image resolutio
 
 | Requirement | Default location | Override |
 |---|---|---|
-| VLM checkpoint (full-finetuned or LoRA) | `<repo>/models/<MODEL>` | `MODEL_ROOT`, or `MODEL_PATH` for a full path |
-| Base model for LoRA adapters | `base_model_name_or_path` from the adapter's `adapter_config.json` | `BASE_MODEL` |
-| Qwen-Image-Edit-2511 weights | none — required for stage 3 | `MODEL_PATH` |
+| VLM LoRA adapter | `<repo>/models/ft_ckpts/<MODEL>` | `MODEL_ROOT`, or `MODEL_PATH` for a full path |
+| Base model for LoRA adapters | `<repo>/models/Qwen3-VL-32B-Instruct`, then `base_model_name_or_path` from the adapter's `adapter_config.json` | `BASE_MODEL` |
+| Qwen-Image-Edit-2511 weights | `<repo>/models/Qwen-Image-Edit-2511` | `MODEL_PATH` |
 | Fine-tuned DiT checkpoint | none — stage 3 runs the base model | `FT_CKPT_PATH` |
 | System prompt | `prompts/system_prompt.txt` | `SYSTEM_PROMPT` |
 | Qwen Edit pipeline | `vendor/qwenimage/pipeline_qwenimage_edit_plus.py` | `PHOTOMASTER_QWEN_EDIT_PIPELINE` |
 
+Every default resolves inside `<repo>/models/`, so a populated `models/` needs no
+variables at all:
+
+```
+models/
+├── Qwen3-VL-32B-Instruct/          base VLM, stage 1
+├── Qwen-Image-Edit-2511/           base DiT, stage 3
+└── ft_ckpts/
+    ├── vlm/                        LoRA adapter, the default MODEL
+    └── i2i/                        I2I finetune, pass one via FT_CKPT_PATH
+```
+
+`models/` is gitignored — it is a layout you populate, not one the repository ships.
+
 LoRA checkpoints are detected automatically by the presence of `adapter_config.json`. The
 adapter is merged into the base model on CPU before the merged model moves to GPU, which
-avoids holding both copies in device memory at once.
+avoids holding both copies in device memory at once. `adapter_config.json` records the base
+model path from the machine that trained it, so stage 1 prefers the in-repo base model when
+`models/Qwen3-VL-32B-Instruct` exists and only falls back to the recorded path otherwise.
 
 Python dependencies: `torch`, `transformers`, `diffusers`, `peft` (LoRA only),
 `safetensors`, `Pillow`, and optionally `qwen_vl_utils` (stage 1 falls back to a built-in
@@ -67,33 +83,38 @@ Whole pipeline, reproducing the recorded reference settings:
 
 ```bash
 set -a; . config/experiments/photomaster_bench_infer.env; set +a
-MODEL_ROOT=/path/to/ft_ckpts \
-MODEL_PATH=/path/to/Qwen-Image-Edit-2511 \
-    bash scripts/inference/run_pipeline.sh my_vlm_ckpt photomaster_bench
+bash scripts/inference/run_pipeline.sh vlm photomaster_bench
 ```
 
-Note that `MODEL_PATH` names the DiT weights for stage 3; the VLM checkpoint is selected by
-the first positional argument together with `MODEL_ROOT`.
+Both arguments are optional and already default to those values, so bare
+`bash scripts/inference/run_pipeline.sh` does the same thing.
 
 Individual stages:
 
 ```bash
 # Stage 1 — 8 GPUs on one node
-MODEL_ROOT=/path/to/ft_ckpts GPU_MODE=multi_gpu \
-    bash scripts/inference/run_vlm_infer.sh my_vlm_ckpt photomaster_bench
+GPU_MODE=multi_gpu bash scripts/inference/run_vlm_infer.sh vlm photomaster_bench
 
 # Stage 2 — cheap, CPU only
-bash scripts/inference/run_vlm_to_dit.sh my_vlm_ckpt photomaster_bench
+bash scripts/inference/run_vlm_to_dit.sh vlm photomaster_bench
 
 # Stage 3 — resumes by skipping images that already exist
-MODEL_PATH=/path/to/Qwen-Image-Edit-2511 \
-    bash scripts/inference/run_qwen_edit_infer.sh my_vlm_ckpt photomaster_bench
+bash scripts/inference/run_qwen_edit_infer.sh vlm photomaster_bench
+
+# Stage 3 against an I2I finetune instead of the base DiT
+FT_CKPT_PATH=models/ft_ckpts/i2i/epoch-2.safetensors \
+    bash scripts/inference/run_qwen_edit_infer.sh vlm photomaster_bench
 ```
+
+Checkpoints elsewhere on disk are reached with `MODEL_ROOT` (a directory of VLM
+checkpoints) or `MODEL_PATH` (one full path). `MODEL_PATH` means different things to the two
+GPU stages — the VLM checkpoint in stage 1, the DiT weights in stage 3 — so set it on a
+stage script directly rather than on `run_pipeline.sh`, which passes it to both.
 
 Smoke test on two samples before committing a GPU allocation:
 
 ```bash
-NUM_SAMPLES=2 bash scripts/inference/run_vlm_infer.sh my_vlm_ckpt photomaster_bench
+NUM_SAMPLES=2 bash scripts/inference/run_vlm_infer.sh vlm photomaster_bench
 ```
 
 ## Environment reference
@@ -102,9 +123,10 @@ Stage 1 — `run_vlm_infer.sh`:
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `MODEL_ROOT` | `<repo>/models` | Directory holding VLM checkpoints |
+| `MODEL` | `vlm` | Checkpoint directory name; also the first positional argument |
+| `MODEL_ROOT` | `<repo>/models/ft_ckpts` | Directory holding VLM checkpoints |
 | `MODEL_PATH` | `$MODEL_ROOT/$MODEL` | Full checkpoint path, bypassing `MODEL_ROOT` |
-| `BASE_MODEL` | from `adapter_config.json` | Base model for a LoRA adapter |
+| `BASE_MODEL` | `<repo>/models/Qwen3-VL-32B-Instruct`, else from `adapter_config.json` | Base model for a LoRA adapter |
 | `RUN_NAME` | `$MODEL` | Result directory name |
 | `SYSTEM_PROMPT` | `system_prompt.txt` | Relative names resolve against `prompts/` |
 | `MAX_NEW_TOKENS` | 2048 | Generation cap; the script warns when a sample hits it |
@@ -123,8 +145,8 @@ Stage 3 — `run_qwen_edit_infer.sh`:
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `MODEL_PATH` | — | Qwen-Image-Edit-2511 weights; required |
-| `FT_CKPT_PATH` | none | Fine-tuned DiT `.safetensors` checkpoint |
+| `MODEL_PATH` | `<repo>/models/Qwen-Image-Edit-2511` | Qwen-Image-Edit-2511 weights |
+| `FT_CKPT_PATH` | none — base model runs | Fine-tuned DiT `.safetensors`, e.g. `models/ft_ckpts/i2i/epoch-2.safetensors` |
 | `SAVE_MODEL_NAME` | `qwen_edit_images` | Output subfolder inside the result directory |
 | `TRUE_CFG_SCALE` | 4.0 | True CFG scale |
 | `INFERENCE_STEPS` | 50 | Denoising steps |

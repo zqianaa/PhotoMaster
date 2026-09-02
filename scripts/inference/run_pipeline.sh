@@ -11,19 +11,23 @@
 # done, so re-running this script resumes rather than restarts.
 #
 # Usage:
-#   MODEL_PATH=/path/to/Qwen-Image-Edit-2511 \
-#       bash scripts/inference/run_pipeline.sh [MODEL] [BENCH]
+#   bash scripts/inference/run_pipeline.sh [MODEL] [BENCH]
 #
-# MODEL_PATH (the DiT weights, needed by stage 3) is required. All other variables
-# are documented in the individual stage scripts and are passed through unchanged.
-# Source an experiment env file first to reproduce a recorded run:
+# Every path defaults into <repo>/models/, so a populated models/ directory needs no
+# variables at all. All other variables are documented in the individual stage scripts
+# and are passed through unchanged. Source an experiment env file to reproduce a
+# recorded run:
 #
 #   set -a; . config/experiments/photomaster_bench_infer.env; set +a
-#   MODEL_PATH=... bash scripts/inference/run_pipeline.sh my_ckpt photomaster_bench
+#   bash scripts/inference/run_pipeline.sh vlm photomaster_bench
+#
+# Note that MODEL_PATH means different things to the two GPU stages — the VLM
+# checkpoint in stage 1, the DiT weights in stage 3 — so set it on a stage script
+# directly rather than here, where it would reach both.
 
 set -euo pipefail
 
-MODEL="${MODEL:-Qwen3-VL-32B-Instruct}"
+MODEL="${MODEL:-vlm}"
 BENCH="${BENCH:-photomaster_bench}"
 
 MODEL="${1:-$MODEL}"

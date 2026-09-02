@@ -12,3 +12,10 @@ __pycache__/
 *.py[cod]
 .ruff_cache/
 .ipynb_checkpoints/
+
+# Benchmark run output. Every stage writes into bench/<BENCH>/results/<RUN_NAME>/,
+# so the whole results tree is generated from the benchmark + the model.
+bench/*/results/
+
+# Local scratch
+.verify/

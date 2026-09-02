@@ -136,6 +136,7 @@ pwd
 OUTPUT_DIR="${OUTPUT_PATH:-$PHOTOMASTER_DIR/outputs/qwen_edit_2511_ft}"
 MODEL_DIR_CANDIDATES=(
   "${QWEN_EDIT_BASE_MODEL_DIR:-}"
+  "$PHOTOMASTER_DIR/models/Qwen-Image-Edit-2511"
   "$PHOTOMASTER_DIR/models/base_models/Qwen-Image-Edit-2511"
   "/home/ma-user/work/dataset/wilson/BOOGU/photomaster/models/base_models/Qwen-Image-Edit-2511"
   "$DEFAULT_DIR/dataset/wilson/BOOGU/photomaster/models/base_models/Qwen-Image-Edit-2511"

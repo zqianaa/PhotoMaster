@@ -9,7 +9,7 @@
 #   bash scripts/inference/run_vlm_to_dit.sh [RUN_NAME] [BENCH]
 #
 # Arguments (both optional; environment variables of the same name are the defaults):
-#   RUN_NAME  Result directory name under results/ (default: Qwen3-VL-32B-Instruct)
+#   RUN_NAME  Result directory name under results/ (default: vlm)
 #   BENCH     Bench directory name under bench/    (default: photomaster_bench)
 #
 # Environment variables:
@@ -17,7 +17,7 @@
 
 set -euo pipefail
 
-RUN_NAME="${RUN_NAME:-Qwen3-VL-32B-Instruct}"
+RUN_NAME="${RUN_NAME:-vlm}"
 BENCH="${BENCH:-photomaster_bench}"
 
 RUN_NAME="${1:-$RUN_NAME}"

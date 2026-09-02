@@ -39,7 +39,7 @@ bash scripts/dit_train/launch_qwen_edit_2511_train.sh
 | Requirement | Default location | Override |
 |---|---|---|
 | Conda environment | `<dataset>/wilson/env/photomaster_final` | `PHOTOMASTER_CONDA_ENV` |
-| Base model `Qwen-Image-Edit-2511` | `<repo>/models/base_models/Qwen-Image-Edit-2511`, then `<dataset>/dialog_edit_env/ckpts/Qwen/Qwen-Image-Edit-2511` | `QWEN_EDIT_BASE_MODEL_DIR` |
+| Base model `Qwen-Image-Edit-2511` | `<repo>/models/Qwen-Image-Edit-2511`, then `<repo>/models/base_models/Qwen-Image-Edit-2511`, then `<dataset>/dialog_edit_env/ckpts/Qwen/Qwen-Image-Edit-2511` | `QWEN_EDIT_BASE_MODEL_DIR` |
 | Training code | `scripts/dit_train/trainer` (in this repo) | `TRAINER_DIR` |
 
 The worker verifies that all 5 transformer shards, all 4 text-encoder shards, and the

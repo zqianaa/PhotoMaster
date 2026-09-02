@@ -8,14 +8,15 @@
 #   bash scripts/inference/run_vlm_infer.sh [MODEL] [BENCH]
 #
 # Arguments (both optional; environment variables of the same name are the defaults):
-#   MODEL   Model directory name under MODEL_ROOT (default: Qwen3-VL-32B-Instruct)
+#   MODEL   Model directory name under MODEL_ROOT (default: vlm)
 #   BENCH   Bench directory name under bench/     (default: photomaster_bench)
 #
 # Environment variables:
-#   MODEL_ROOT      Directory containing model checkpoints
+#   MODEL_ROOT      Directory containing VLM checkpoints (default: <repo>/models/ft_ckpts)
 #   MODEL_PATH      Full path to the checkpoint; overrides MODEL_ROOT/MODEL
-#   BASE_MODEL      Base model path for LoRA checkpoints. If unset, the path recorded
-#                   in the adapter's adapter_config.json is used.
+#   BASE_MODEL      Base model path for LoRA checkpoints. Defaults to
+#                   <repo>/models/Qwen3-VL-32B-Instruct when that directory exists,
+#                   otherwise to the path recorded in the adapter's adapter_config.json.
 #   RUN_NAME        Result directory name under results/ (default: $MODEL)
 #   SYSTEM_PROMPT   Prompt file; relative paths resolve against prompts/ (default: system_prompt.txt)
 #   MAX_NEW_TOKENS, TEMPERATURE, TOP_P, TOP_K   Generation settings
@@ -27,7 +28,8 @@
 #
 # Examples:
 #   bash scripts/inference/run_vlm_infer.sh
-#   MODEL_ROOT=/path/to/ft_ckpts GPU_MODE=multi_gpu \
+#   GPU_MODE=multi_gpu bash scripts/inference/run_vlm_infer.sh vlm photomaster_bench
+#   MODEL_ROOT=/path/to/other_ckpts \
 #       bash scripts/inference/run_vlm_infer.sh my_lora_ckpt photomaster_bench
 
 set -euo pipefail
@@ -37,7 +39,7 @@ START_TIME=$(date +%s)
 # -----------------------------------------------------------------------
 # Defaults — all overridable from the environment.
 # -----------------------------------------------------------------------
-MODEL="${MODEL:-Qwen3-VL-32B-Instruct}"
+MODEL="${MODEL:-vlm}"
 BENCH="${BENCH:-photomaster_bench}"
 
 # Args override defaults if provided.
@@ -50,10 +52,19 @@ BENCH="${2:-$BENCH}"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 
-MODEL_ROOT="${MODEL_ROOT:-${REPO_ROOT}/models}"
+MODEL_ROOT="${MODEL_ROOT:-${REPO_ROOT}/models/ft_ckpts}"
 MODEL_PATH="${MODEL_PATH:-${MODEL_ROOT}/${MODEL}}"
 DATA_DIR="${REPO_ROOT}/bench/${BENCH}"
 INFER_SCRIPT="${SCRIPT_DIR}/vlm_infer.py"
+
+# The adapter_config.json shipped with a LoRA checkpoint records the base model path
+# from the machine it was trained on, which does not resolve in a fresh clone. Prefer
+# the in-repo base model when it is present; otherwise leave BASE_MODEL unset and let
+# vlm_infer.py fall back to the recorded path.
+REPO_BASE_MODEL="${REPO_ROOT}/models/Qwen3-VL-32B-Instruct"
+if [ -z "${BASE_MODEL:-}" ] && [ -d "$REPO_BASE_MODEL" ]; then
+    BASE_MODEL="$REPO_BASE_MODEL"
+fi
 
 SYSTEM_PROMPT="${SYSTEM_PROMPT:-system_prompt.txt}"
 if [[ "$SYSTEM_PROMPT" != /* ]]; then
