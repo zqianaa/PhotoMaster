@@ -1,13 +1,12 @@
 # DiT Training — Qwen-Image-Edit-2511
 
-Multi-node image-editing (I2I) fine-tuning of Qwen-Image-Edit-2511 on Slurm.
+Multi-node image-editing (I2I) fine-tuning of Qwen-Image-Edit-2511.
 
 ## Layout
 
 ```
 scripts/dit_train/
-├── train_qwen_edit_2511.slurm        # sbatch entry point — orchestrates the job
-├── launch_qwen_edit_2511_train.sh    # per-rank worker — env setup + trainer invocation
+├── launch_qwen_edit_2511_train.sh    # launch script — env setup + trainer invocation
 └── trainer/                          # vendored training code
     ├── train.py                      # trainer entry point
     ├── utils/                        # training loop, checkpoint logger
@@ -21,28 +20,19 @@ config/
 └── experiments/*.env                 # hyperparameters per experiment
 ```
 
-`train_qwen_edit_2511.slurm` allocates the job, computes the rendezvous address, and
-launches one task per GPU with `srun`. Each task runs
-`launch_qwen_edit_2511_train.sh`, which activates the conda environment, locates the
-base model, writes the DeepSpeed and Accelerate configs, and calls the trainer.
-
-The worker also runs standalone without Slurm (single node, via `accelerate launch`):
-
-```bash
-OUTPUT_PATH=/path/to/output \
-DATA_CONFIG_PATH=config/data/lingbot_dataAblation.yaml \
-bash scripts/dit_train/launch_qwen_edit_2511_train.sh
-```
+`launch_qwen_edit_2511_train.sh` activates the conda environment, locates the base
+model, writes the DeepSpeed and Accelerate configs, and calls the trainer via
+`accelerate launch`.
 
 ## Prerequisites
 
 | Requirement | Default location | Override |
 |---|---|---|
-| Conda environment | `<dataset>/wilson/env/photomaster_final` | `PHOTOMASTER_CONDA_ENV` |
-| Base model `Qwen-Image-Edit-2511` | `<repo>/models/Qwen-Image-Edit-2511`, then `<repo>/models/base_models/Qwen-Image-Edit-2511`, then `<dataset>/dialog_edit_env/ckpts/Qwen/Qwen-Image-Edit-2511` | `QWEN_EDIT_BASE_MODEL_DIR` |
+| Conda environment | `<repo>/../../env/photomaster_final` | `PHOTOMASTER_CONDA_ENV` |
+| Base model `Qwen-Image-Edit-2511` | `<repo>/models/Qwen-Image-Edit-2511` | `QWEN_EDIT_BASE_MODEL_DIR` |
 | Training code | `scripts/dit_train/trainer` (in this repo) | `TRAINER_DIR` |
 
-The worker verifies that all 5 transformer shards, all 4 text-encoder shards, and the
+The script verifies that all 5 transformer shards, all 4 text-encoder shards, and the
 VAE weights are present, and fails early with the missing path if not.
 
 The trainer itself is vendored under `scripts/dit_train/trainer`, so no external
@@ -52,28 +42,31 @@ and timestep sampling live.
 
 ## Running
 
-Node and GPU counts must be passed on the command line — `#SBATCH` directives are
-parsed before the script executes, so they cannot come from the experiment file.
+Source an experiment file to set hyperparameters, then run the launch script:
 
 ```bash
-# 4 nodes x 8 GPUs
-sbatch --nodes=4 --ntasks-per-node=8 --gres=gpu:8 \
-    scripts/dit_train/train_qwen_edit_2511.slurm \
-    config/experiments/lingbot_ablation.env
+# Single node (8 GPUs)
+source config/experiments/photomaster_i2i_train.env
+bash scripts/dit_train/launch_qwen_edit_2511_train.sh
 
-# single node, using the built-in #SBATCH defaults
-sbatch scripts/dit_train/train_qwen_edit_2511.slurm \
-    config/experiments/lingbot_ablation.env
+# Multi-node — set the rendezvous vars before launching on each node
+NNODES=4 NODE_RANK=<rank> MASTER_ADDR=<node0-ip> \
+source config/experiments/photomaster_i2i_train.env
+bash scripts/dit_train/launch_qwen_edit_2511_train.sh
 ```
 
-`--ntasks-per-node` must equal the GPU count per node: the trainer runs one process
-per GPU. World size, `GPUS_PER_NODE`, and the master address are all derived from the
-allocation, so they cannot drift out of sync with the flags you passed.
+Any variable in the experiment file can be overridden by exporting it first:
+
+```bash
+OUTPUT_PATH=/path/to/output \
+DATA_CONFIG_PATH=config/data/lingbot_dataAblation.yaml \
+bash scripts/dit_train/launch_qwen_edit_2511_train.sh
+```
 
 ## Experiment configuration
 
-An experiment file is plain shell assignments, sourced by the sbatch script. See
-`config/experiments/lingbot_ablation.env`.
+An experiment file is plain shell assignments, sourced before the launch script. See
+`config/experiments/photomaster_i2i_train.env`.
 
 | Variable | Default | Meaning |
 |---|---|---|
