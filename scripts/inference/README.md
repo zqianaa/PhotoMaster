@@ -1,8 +1,12 @@
-# Inference — VLM critique to edited image
+# Inference — PDT guidance and visual references
 
 Three-stage benchmark pipeline. A Qwen3-VL model critiques a photograph and writes an
 editing prompt; that prompt is reformatted into DiT input; Qwen-Image-Edit-2511 renders
-the edited image.
+a visual reference for reshooting.
+
+For installation, checkpoints, and a single-photo run, start with the
+[quick start](../../docs/quickstart.md). The bundled benchmark directory contains
+five inference examples, not the complete 377-case paper evaluation set.
 
 ## Layout
 
@@ -39,7 +43,7 @@ and 3. `run_pipeline.sh` resolves it once and exports it so all three agree.
 ### Layout constraint
 
 `dit_input.jsonl` records image paths relative to the bench root (`img/foo.jpg`). Stage 3
-resolves them against the JSONL's grandparent directory, so the result directory must stay
+resolves them two parents above the JSONL-containing directory, so the result directory must stay
 exactly two levels below the bench root. A flatter layout breaks image resolution.
 
 ## Prerequisites
@@ -79,7 +83,8 @@ image collector when it is absent).
 
 ## Usage
 
-Whole pipeline, reproducing the recorded reference settings:
+Whole pipeline with the recorded generation settings (set `FT_CKPT_PATH` to
+the PhotoMaster checkpoint and `GPU_MODE=single` for a single-GPU run):
 
 ```bash
 set -a; . config/experiments/photomaster_bench_infer.env; set +a
@@ -192,3 +197,7 @@ summary counts both. Samples that hit `MAX_NEW_TOKENS` are flagged with
 Stage 3 skips samples whose output image already exists, so re-running the same command
 resumes an interrupted run. It exits non-zero if any sample failed or if the final image
 count is short of the input sample count.
+
+Stage 2 rejects failed VLM records, parse errors, empty rendering prompts and
+duplicate output names before writing its JSONL. Use a new `RUN_NAME` whenever
+model checkpoints or generation settings change to avoid stale cached outputs.

@@ -1,0 +1,17 @@
+name: CPU checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: python -m pip install Pillow
+      - run: python -m unittest discover -s tests -v
+      - run: python scripts/check_setup.py --data-only
+      - name: Check inference shell syntax
+        run: bash -n scripts/inference/run_pipeline.sh scripts/inference/run_vlm_infer.sh scripts/inference/run_vlm_to_dit.sh scripts/inference/run_qwen_edit_infer.sh

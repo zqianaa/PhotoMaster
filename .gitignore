@@ -19,3 +19,11 @@ bench/*/results/
 
 # Local scratch
 .verify/
+
+# Personal inference inputs and local environments
+bench/demo_*/
+bench/.prepare-*/
+.venv/
+.env
+.env.local
+.DS_Store

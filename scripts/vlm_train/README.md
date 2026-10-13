@@ -20,6 +20,9 @@ training_data/
 `launch_qwen3_vl_train.sh` activates the conda environment, generates a DeepSpeed ZeRO-2
 config, and launches the trainer via `torchrun`.
 
+> This is the research training setup. See [release status](../../docs/release-status.md)
+> for missing dataset assets and machine-specific launcher assumptions.
+
 ## Prerequisites
 
 | Requirement | Default location | Override |
@@ -27,7 +30,7 @@ config, and launches the trainer via `torchrun`.
 | Conda environment | `<repo>/../../env/photomaster_final` | `PHOTOMASTER_CONDA_ENV` |
 | Base model `Qwen3-VL-32B-Instruct` | `<repo>/models/Qwen3-VL-32B-Instruct` | `MODEL_PATH` |
 | Trainer | `scripts/vlm_train/LLaMA-Factory/src/train.py` (in this repo) | `SCRIPT_PATH` |
-| Dataset registry | `data/dataset_info.json` (in this repo) | `DATASET_DIR` |
+| Dataset registry | `data/dataset_info.json` (must be supplied) | `DATASET_DIR` |
 
 The script verifies that `SCRIPT_PATH` exists and exits early with the missing path if not.
 
@@ -45,16 +48,16 @@ Source an experiment file to set hyperparameters, then run the launch script:
 
 ```bash
 # Single node (8 GPUs)
-source config/experiments/photomaster_vlm_train.env
+set -a; source config/experiments/photomaster_vlm_train.env; set +a
 bash scripts/vlm_train/launch_qwen3_vl_train.sh
 
 # Multi-node — set rendezvous vars before launching on each node
-NNODES=4 NODE_RANK=<rank> MASTER_ADDR=<node0-ip> \
-source config/experiments/photomaster_vlm_train.env
+set -a; source config/experiments/photomaster_vlm_train.env; set +a
+export NNODES=4 NODE_RANK=<rank> MASTER_ADDR=<node0-ip>
 bash scripts/vlm_train/launch_qwen3_vl_train.sh
 ```
 
-Any variable can be overridden by exporting it before sourcing the env file:
+Source and export the experiment settings first; override values on the launch command:
 
 ```bash
 OUTPUT_PATH=/path/to/output \
@@ -89,7 +92,8 @@ mix.
 
 ## Dataset configuration
 
-`training_data/dataset_info.json` is the LLaMA-Factory dataset registry. It maps dataset
+`dataset_info.json` is the LLaMA-Factory dataset registry. It is not included in
+this checkout and must be prepared under `DATASET_DIR`. It maps dataset
 names to label JSON paths using ShareGPT column mappings:
 
 ```json
@@ -102,7 +106,7 @@ names to label JSON paths using ShareGPT column mappings:
 ```
 
 Paths in `dataset_info.json` are relative to `--dataset_dir`, which defaults to
-`$PHOTOMASTER_DIR/training_data`. Repoint `DATASET_DIR` for a different environment.
+`$PHOTOMASTER_DIR/data` in the launcher. Repoint `DATASET_DIR` for a different environment.
 
 Available datasets:
 
@@ -140,9 +144,9 @@ To load a checkpoint:
 
 ```python
 from peft import PeftModel
-from transformers import Qwen2_5_VLForConditionalGeneration
+from transformers import Qwen3VLForConditionalGeneration
 
-base = Qwen2_5_VLForConditionalGeneration.from_pretrained(MODEL_PATH)
+base = Qwen3VLForConditionalGeneration.from_pretrained(MODEL_PATH)
 model = PeftModel.from_pretrained(base, f"{OUTPUT_PATH}/checkpoint-{N}")
 ```
 
@@ -173,7 +177,7 @@ The vision tower and projector are frozen, so gradients flow only through the Lo
 adapters. On 80 GB H800s, a single node (8 GPUs) with `PER_DEVICE_TRAIN_BATCH_SIZE=1`
 and `IMAGE_MAX_PIXELS=262144` has been used in practice.
 
-Set (already in the shipped experiment config):
+Set:
 
 ```
 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True

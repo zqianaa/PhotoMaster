@@ -5,7 +5,7 @@ Inference script for Qwen3-VL on the photography critique benchmark.
 Loads a Qwen3-VL model and runs inference on samples defined in a metadata.json file.
 Each sample contains an original image.
 
-The analysis framework is defined in an external [REDACTED] file
+The analysis framework is defined in an external system prompt file
 (default: prompts/system_prompt.txt, resolved next to this script).
 The script generates JSON output with three fields: Issues_Analysis, Professional_Suggestions,
 and Image_Editing_Prompt.
@@ -25,7 +25,7 @@ Usage:
         --data-dir /path/to/bench \
         --output-json /path/to/output/results.json
 
-    # Single GPU – custom [REDACTED] file
+    # Single GPU – custom system prompt file
     python vlm_infer.py \
         --model-path /path/to/model \
         --data-dir /path/to/bench \
@@ -126,7 +126,7 @@ def parse_args():
         "--system-prompt-file",
         type=str,
         default=str(DEFAULT_SYSTEM_PROMPT),
-        help=f"Path to the [REDACTED] file (default: {DEFAULT_SYSTEM_PROMPT}).",
+        help=f"Path to the system prompt file (default: {DEFAULT_SYSTEM_PROMPT}).",
     )
     parser.add_argument(
         "--max-new-tokens",
@@ -200,7 +200,7 @@ def parse_args():
 
 
 def load_system_prompt(file_path: str) -> str:
-    """Load [REDACTED] from file."""
+    """Load system prompt from file."""
     with open(file_path, "r", encoding="utf-8") as f:
         content = f.read().strip()
     return content
@@ -583,14 +583,14 @@ def main():
     rank, world_size, local_rank = setup_distributed()
 
     try:
-        # Load [REDACTED]
+        # Load system prompt
         try:
             system_prompt = load_system_prompt(args.system_prompt_file)
             if rank == 0:
-                print(f"Loaded [REDACTED] from: {args.system_prompt_file}")
+                print(f"Loaded system prompt from: {args.system_prompt_file}")
         except FileNotFoundError:
             if rank == 0:
-                print(f"ERROR: [REDACTED] file not found: {args.system_prompt_file}")
+                print(f"ERROR: system prompt file not found: {args.system_prompt_file}")
             sys.exit(1)
 
         data_dir = Path(args.data_dir)
