@@ -2,7 +2,7 @@
 
 The one-image smoke run and five-image demo run completed on **one NVIDIA H20** on October 13, 2026. Both executed VLM guidance, JSON conversion and reference rendering with `GPU_MODE=single` and `FT_CKPT_IS_FULL=1`. The run sequence reported `succeeded`, exit code `0`, and completion at **19:49:56 Asia/Shanghai (UTC+08:00)**.
 
-This report is based on status, logs and validation summaries inspected through the remote UI. The raw logs and results have been packaged for retrieval, but the archive has not yet been retrieved and verified locally or published. Image content has not been reviewed, and no PhotoMaster-Bench metric reproduction is claimed.
+The archive was retrieved on October 14, 2026. All **51 payload files** match their recorded sizes and SHA-256 hashes, with zero missing files; **59 offline consistency checks** passed. The [selected raw evidence and audit](validation/h20-20261013/README.md) and [all five generated comparisons](examples.md) are published in this branch. Qualitative inspection found partial instruction following and visible failures. No PhotoMaster-Bench metric reproduction is claimed.
 
 ## Execution results
 
@@ -28,7 +28,7 @@ These values are sampled whole-card used memory, including memory outside the mo
 
 ## Source, weights and settings
 
-The executed source was commit **`01f7eed` plus the complete-transformer loader patch**. It was not an unmodified release commit. The patch loads the full PhotoMaster transformer directly after strict key/shape checks, avoiding the additional base transformer weights. The default partial-checkpoint loading mode was not exercised by these GPU runs.
+The executed source was commit **`01f7eed` plus the complete-transformer loader patch**. The recorded patch exactly matches the two inference-file changes from `01f7eed` to **`e7c2e15c080396a1cb04e09fac0ae7a870eba261`**. All three recorded source hashes (worker, launcher and full-transformer test) also match that commit. The helper copied pre-existing provenance records; this verifies their correspondence, not an independent snapshot of every remotely executed file. The remote system prompt and complete source tree were not archived. The patch loads the full PhotoMaster transformer directly after strict key/shape checks, avoiding the additional base transformer weights. The partial-checkpoint loading mode was not exercised by these GPU runs.
 
 | Resource | Pinned revision |
 |---|---|
@@ -66,13 +66,26 @@ The fresh AutoDL environment used Ubuntu 22.04, Python 3.12 and CUDA 12.8.
 | Pillow | 11.3.0 |
 | safetensors | 0.8.0 |
 
-These are observed versions for the completed runs. The exact installation recipe and dependency lock remain to be published with their tested hardware and inference scope; these runs do not establish compatibility with other environments. FlashAttention also requires a wheel matching the Python, PyTorch, CUDA and C++ ABI versions; a package version alone does not identify that binary.
+The [environment record](../environments/inference-h20-cu128/README.md) supplies the observed inventory, direct package constraints, exact official wheel URLs/hashes and a consolidated installation recipe. The successful runs reused the image's PyTorch through a `--system-site-packages` virtual environment. The inventory contains inherited packages and image-local build references; it is not a complete portable lock, and the consolidated clean-machine alternative has not been rerun. FlashAttention requires the matching Python 3.12 / PyTorch 2.8 / CUDA 12 / C++ ABI TRUE binary.
+
+## Output inspection and limitations
+
+All six VLM responses across the two runs parse as JSON and supply the exact nonempty prompts used by the renderer. They end with EOS without reaching the token cap. Four responses contain five inactive `Attribution: "None"` string fields where the reference prompt specifies arrays. The current converter accepts them; parsing success is not strict schema compliance.
+
+All six output images decode successfully, and all five input files match the repository examples. The [five-image gallery](examples.md) shows both useful changes and errors: the motorcycle output invents a helmet-like object and changes mechanical details; the cafe output does not follow the arm-placement instruction; the stone-wall output crops closer despite advice to widen the shot. Faces and scene details can be regenerated. These observations are assistant qualitative inspection, not a blinded evaluation or a measured success rate.
+
+The original archive SHA-256 is `06e4798d6aea219146fa1f1b4ac0e89765f6946ec894a90525eec30183735ade` (9,265,781 bytes). Internal manifest hashes establish file consistency, not independent authenticity. The published directory contains a selected evidence subset and derived audit; model tensors and an independently captured complete remote source tree are absent.
+
+## Subsequent workflow changes
+
+After retrieving the evidence, this branch changed launcher defaults to single GPU and the complete published checkpoint, added automatic preflight and fresh-directory enforcement, checked FlashAttention's extension import, rejected non-object/non-string VLM responses, and made empty renderer ranks join the same collectives. Renderer completion now checks every expected output path. These changes passed **60 CPU regression tests**, including mocked launchers and distributed calls, plus shell syntax and documentation command checks. The six recorded VLM responses retain identical parsed fields under the new parser.
+
+These workflow changes were **not rerun on a GPU**. The full-transformer loading implementation remains unchanged from the GPU-tested path; the historical logs and hashes above identify the earlier source. CPU mocks do not validate NCCL, actual model generation or a clean-machine installation.
 
 ## Remaining acceptance work
 
-- Retrieve the raw evidence archive, verify its contents and checksums locally, and publish the appropriate reproducibility artifacts.
-- Inspect the generated advice and images for quality, instruction following and artifacts. File readability and successful execution establish only that outputs were produced.
-- Match the recorded executed-source hashes to the release commit and patch, then publish the exact installation recipe and dependency lock with the scope verified by these runs.
+- Independently GPU-validate the subsequent workflow revision if claiming that exact revision as end-to-end tested; strict PDT schema validation and real distributed execution remain outside this run.
+- Provide a complete portable dependency lock and independently test the consolidated installation recipe when claiming clean-machine reproducibility.
 - Release and evaluate the full 377-case benchmark before claiming reproduction of paper metrics. The five bundled inference examples do not provide that evaluation.
 
 The [quick start](quickstart.md) documents the tested complete-checkpoint mode. The [release checklist](release-status.md) retains the remaining licensing, data, training and publication work.

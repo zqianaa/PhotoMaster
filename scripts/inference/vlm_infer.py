@@ -57,6 +57,11 @@ import torch.distributed as dist
 from PIL import Image
 from transformers import Qwen3VLForConditionalGeneration, AutoProcessor
 
+if __package__:
+    from .vlm_output import format_output_to_string, parse_vlm_output
+else:
+    from vlm_output import format_output_to_string, parse_vlm_output
+
 
 # ---------------------------------------------------------------------------
 # User prompt template
@@ -499,35 +504,6 @@ def process_vision_info(messages):
         return images if images else None, None
 
 
-def format_output_to_string(output_value) -> str:
-    """
-    Convert the output value (list, dict, or string) into a single formatted string.
-
-    Args:
-        output_value: Can be a list, dict, or string from the model output
-
-    Returns:
-        A formatted string representation of the output
-    """
-    if isinstance(output_value, str):
-        return output_value
-    elif isinstance(output_value, list):
-        if not output_value:
-            return ""
-        formatted_items = []
-        for item in output_value:
-            if isinstance(item, dict):
-                dimension = item.get("Dimension", "")
-                detail = item.get("Detail", "")
-                if detail and detail.lower() != "none":
-                    formatted_items.append(f"【{dimension}】{detail}")
-            else:
-                formatted_items.append(str(item))
-        return "\n".join(formatted_items)
-    else:
-        return str(output_value)
-
-
 def shard_data(data: list, rank: int, world_size: int) -> list:
     """Shard data across GPUs. Each GPU gets a contiguous chunk."""
     total_samples = len(data)
@@ -690,40 +666,13 @@ def main():
 
             # Build result record - start with all fields from original metadata
             result = dict(sample)  # Copy all fields from metadata
-            result["Issues_Analysis"] = ""
-            result["Professional_Suggestions"] = ""
-            result["Image_Editing_Prompt"] = ""
+            result.update(parse_vlm_output(output_text))
+            if "parse_error" in result:
+                print(f"[Rank {rank}]   WARNING: Invalid VLM output: {result['parse_error']}")
+                print(f"[Rank {rank}]   Raw output: {output_text[:200]}...")
+            elif "error" not in result:
+                print(f"[Rank {rank}]   Successfully parsed JSON output")
 
-            parsed_output = {}
-
-            if not output_text.startswith("ERROR"):
-                try:
-                    # Try to extract JSON from the output.
-                    json_text = output_text.strip()
-                    if json_text.startswith("```"):
-                        lines = json_text.split("\n")
-                        json_text = "\n".join(lines[1:-1]) if len(lines) > 2 else json_text
-                        json_text = json_text.replace("```json", "").replace("```", "").strip()
-
-                    parsed_output = json.loads(json_text)
-                    print(f"[Rank {rank}]   Successfully parsed JSON output")
-                except json.JSONDecodeError as e:
-                    print(f"[Rank {rank}]   WARNING: Failed to parse JSON output: {e}")
-                    print(f"[Rank {rank}]   Raw output: {output_text[:200]}...")
-                    parsed_output = {"parse_error": str(e), "raw_output": output_text}
-
-                # Extract the three required fields
-                issues_analysis = parsed_output.get("Issues_Analysis", "")
-                professional_suggestions = parsed_output.get("Professional_Suggestions", "")
-                image_editing_prompt = parsed_output.get("Image_Editing_Prompt", "")
-
-                result["Issues_Analysis"] = format_output_to_string(issues_analysis)
-                result["Professional_Suggestions"] = format_output_to_string(professional_suggestions)
-                result["Image_Editing_Prompt"] = image_editing_prompt if isinstance(image_editing_prompt, str) else str(image_editing_prompt)
-            else:
-                parsed_output = {"error": output_text}
-
-            result["model_output_raw"] = output_text
             result["inference_time_s"] = round(elapsed, 2)
             result["processed_by_rank"] = rank
 
@@ -738,12 +687,6 @@ def main():
                 if args.save_raw_outputs:
                     result["model_output_with_special_tokens"] = inference_info["output_text_with_special_tokens"]
                     result["generated_token_ids"] = inference_info["generated_token_ids"]
-
-            # Add parse error if exists
-            if "parse_error" in parsed_output:
-                result["parse_error"] = parsed_output["parse_error"]
-            if "error" in parsed_output:
-                result["error"] = parsed_output["error"]
 
             results.append(result)
 

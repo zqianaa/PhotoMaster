@@ -1,0 +1,371 @@
+{
+  "format_version": 1,
+  "collected_at_utc": "2026-10-14T03:16:45.825357+00:00",
+  "source_root": "/root/autodl-tmp",
+  "runs": [
+    "autodl_h20_smoke_01",
+    "autodl_h20_demo_05"
+  ],
+  "collection_note": "Whitelist snapshots only. Missing files do not establish run failure or success.",
+  "files": [
+    {
+      "source": "photomaster-work/sequence/status.json",
+      "archive_path": "photomaster-work/sequence/status.json",
+      "status": "included",
+      "bytes": 1561,
+      "sha256": "6355eebdc97e9dbdd8537ddadb7172ef559dc58f47d15fdfbea5fb1358684188"
+    },
+    {
+      "source": "photomaster-work/sequence/events.jsonl",
+      "archive_path": "photomaster-work/sequence/events.jsonl",
+      "status": "included",
+      "bytes": 1574,
+      "sha256": "4b846d2965d2c794bc6436f751d02b789bce421d90a3168606906a970c60d94f"
+    },
+    {
+      "source": "photomaster-work/sequence/sequence.log",
+      "archive_path": "photomaster-work/sequence/sequence.log",
+      "status": "included",
+      "bytes": 950,
+      "sha256": "94f4d04d8ef1b99b5d5ec06970e53026f5b6ef9ff4fc9fb92584e52eaf5c062a"
+    },
+    {
+      "source": "photomaster-work/sequence/smoke_01.log",
+      "archive_path": "photomaster-work/sequence/smoke_01.log",
+      "status": "included",
+      "bytes": 10830,
+      "sha256": "c7c7e6394a1aa2701ca387c1b55755436d8fb0ed0f04bebb9ae1b6b46d977214"
+    },
+    {
+      "source": "photomaster-work/sequence/demo_05.log",
+      "archive_path": "photomaster-work/sequence/demo_05.log",
+      "status": "included",
+      "bytes": 13114,
+      "sha256": "584fa64de49dc0e1d319bc33670fb3c966b19891c0d18f6c603b4b5b5e420a4f"
+    },
+    {
+      "source": "photomaster-work/full-loader-check.log",
+      "archive_path": "photomaster-work/full-loader-check.log",
+      "status": "included",
+      "bytes": 1355,
+      "sha256": "79fda0a23ed5f9489a2ffb5601bbdbe951e508852fbf4270e34b20af27a82d4b"
+    },
+    {
+      "source": "photomaster-work/cpu-tests.log",
+      "archive_path": "photomaster-work/cpu-tests.log",
+      "status": "included",
+      "bytes": 3197,
+      "sha256": "5fc280b30abda6a245441e8076ecfdf455c9352ec3f923d465f74334f4ed0726"
+    },
+    {
+      "source": "photomaster-work/transformer-schema.log",
+      "archive_path": "photomaster-work/transformer-schema.log",
+      "status": "included",
+      "bytes": 407,
+      "sha256": "ef6813692acf54e8ad636c75771e4ae76d17c190b85b89594579bb0db799e67a"
+    },
+    {
+      "source": "photomaster-work/gpu-access-failure.log",
+      "archive_path": "photomaster-work/gpu-access-failure.log",
+      "status": "included",
+      "bytes": 20534,
+      "sha256": "a9c35f8742d074516e4694738395ee8bd0f2ba836712562e204ec3cf7a5a96f8"
+    },
+    {
+      "source": "photomaster-work/gpu-after-restart.log",
+      "archive_path": "photomaster-work/gpu-after-restart.log",
+      "status": "included",
+      "bytes": 153,
+      "sha256": "808683dc298b819a539efbe2f04b48d984c73819981b4bf2f8ab93de324d9e61"
+    },
+    {
+      "source": "photomaster-work/sequence-before-gpu-restart-1629/status.json",
+      "archive_path": "photomaster-work/sequence-before-gpu-restart-1629/status.json",
+      "status": "included",
+      "bytes": 1198,
+      "sha256": "96b4d3865e7b8d6570a3a932fb2b154962fec5b9e0252b447d801aaf7437358b"
+    },
+    {
+      "source": "photomaster-work/sequence-before-gpu-restart-1629/events.jsonl",
+      "archive_path": "photomaster-work/sequence-before-gpu-restart-1629/events.jsonl",
+      "status": "included",
+      "bytes": 592,
+      "sha256": "c6383ca2840e325ab7dea83ecff8cc9b7ec4b406804b4a2e74ebb76430157d20"
+    },
+    {
+      "source": "photomaster-work/sequence-before-gpu-restart-1629/sequence.log",
+      "archive_path": "photomaster-work/sequence-before-gpu-restart-1629/sequence.log",
+      "status": "included",
+      "bytes": 369,
+      "sha256": "5352ca2859a5aabe59f1265de397d1aed8b72509c876c37b66b0577725fb08fb"
+    },
+    {
+      "source": "photomaster-work/sequence-before-download-retry-1713/status.json",
+      "archive_path": "photomaster-work/sequence-before-download-retry-1713/status.json",
+      "status": "included",
+      "bytes": 1194,
+      "sha256": "2d2e435f1d0bd4d0cbab8344eca4163c35d9227ccdc92ba450397f6281e20281"
+    },
+    {
+      "source": "photomaster-work/sequence-before-download-retry-1713/events.jsonl",
+      "archive_path": "photomaster-work/sequence-before-download-retry-1713/events.jsonl",
+      "status": "included",
+      "bytes": 590,
+      "sha256": "e9fcab5005be1f72d7dbdf88ae52390a9527a0e0399f5a4c638ba50ce27fe7f4"
+    },
+    {
+      "source": "photomaster-work/sequence-before-download-retry-1713/sequence.log",
+      "archive_path": "photomaster-work/sequence-before-download-retry-1713/sequence.log",
+      "status": "included",
+      "bytes": 356,
+      "sha256": "f81663a213e8bf2cab6baab90225d92861c821d03f729f22981a679e79da4a5b"
+    },
+    {
+      "source": "autodl_photomaster_prepare.sh",
+      "archive_path": "autodl_photomaster_prepare.sh",
+      "status": "included",
+      "bytes": 17676,
+      "sha256": "7b82c759d0883f569fae2bc16f0755b6cd8ee95be4d7f7efe4dbb5a33d5767a5"
+    },
+    {
+      "source": "autodl_run_sequence.sh",
+      "archive_path": "autodl_run_sequence.sh",
+      "status": "included",
+      "bytes": 7120,
+      "sha256": "32486ec904e62b179bab7b3449f7e590193db510675b30b1929ecbf5c1179c7a"
+    },
+    {
+      "source": "photomaster-work/autodl_h20_smoke_01/pipeline.log",
+      "archive_path": "photomaster-work/autodl_h20_smoke_01/pipeline.log",
+      "status": "included",
+      "bytes": 9940,
+      "sha256": "2d43dd96aa9ec61f1d1908776fee4ecee10f1888b5d185bf731435a06ed0ca58"
+    },
+    {
+      "source": "photomaster-work/autodl_h20_smoke_01/run-settings.json",
+      "archive_path": "photomaster-work/autodl_h20_smoke_01/run-settings.json",
+      "status": "included",
+      "bytes": 693,
+      "sha256": "b9bde47e2f6e237c32316f2eedaebb0e19f5d291a94d2e4eaa362eb49e4dbf73"
+    },
+    {
+      "source": "photomaster-work/autodl_h20_smoke_01/environment.txt",
+      "archive_path": "photomaster-work/autodl_h20_smoke_01/environment.txt",
+      "status": "included",
+      "bytes": 5380,
+      "sha256": "20aa4b80ceee5f66ef7ff13e80ef91d75a6fbaa1098c313025038b2bb0920394"
+    },
+    {
+      "source": "photomaster-work/autodl_h20_smoke_01/git-commit.txt",
+      "archive_path": "photomaster-work/autodl_h20_smoke_01/git-commit.txt",
+      "status": "included",
+      "bytes": 41,
+      "sha256": "7ff1a3dd5dc7854c36aae8fc321b6cffaf755a55c355ecc408f17a912dbd89d8"
+    },
+    {
+      "source": "photomaster-work/autodl_h20_smoke_01/SOURCE_PATCH.diff",
+      "archive_path": "photomaster-work/autodl_h20_smoke_01/SOURCE_PATCH.diff",
+      "status": "included",
+      "bytes": 8940,
+      "sha256": "da544dfd386464f9bfe5cc7087f7582229e73fac521e4243543f63871dcddf05"
+    },
+    {
+      "source": "photomaster-work/autodl_h20_smoke_01/SOURCE_FILES.sha256",
+      "archive_path": "photomaster-work/autodl_h20_smoke_01/SOURCE_FILES.sha256",
+      "status": "included",
+      "bytes": 307,
+      "sha256": "7df362325e658ceafb9bc71af16ac397236c44a95865b664014282f6d0e69628"
+    },
+    {
+      "source": "photomaster-work/autodl_h20_smoke_01/gpu-before.txt",
+      "archive_path": "photomaster-work/autodl_h20_smoke_01/gpu-before.txt",
+      "status": "included",
+      "bytes": 11323,
+      "sha256": "dcfa85422ba383ac9e2c9cc8cb46ec6500310970b596c57532e56afcb0c4397b"
+    },
+    {
+      "source": "photomaster-work/autodl_h20_smoke_01/gpu-samples.csv",
+      "archive_path": "photomaster-work/autodl_h20_smoke_01/gpu-samples.csv",
+      "status": "included",
+      "bytes": 44075,
+      "sha256": "8e27d8111d1adcd9f151bf1f633b10fcd10699da0be46fff68aeaeea9849f4dc"
+    },
+    {
+      "source": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_smoke_01/vlm_output.json",
+      "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_smoke_01/vlm_output.json",
+      "status": "included",
+      "bytes": 7549,
+      "sha256": "fd9a1fcf92b753071728ab5efcb313b26dd385cbbb3ddc34f2448786d2c04854"
+    },
+    {
+      "source": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_smoke_01/dit_input.jsonl",
+      "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_smoke_01/dit_input.jsonl",
+      "status": "included",
+      "bytes": 1114,
+      "sha256": "698cd2c8ecd1c901981cd2f99897ba3db273621bb42e3976cbb716806e712727"
+    },
+    {
+      "source": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_smoke_01/qwen_edit_images/-3hNHA9I5qo.jpg",
+      "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_smoke_01/qwen_edit_images/-3hNHA9I5qo.jpg",
+      "status": "included",
+      "bytes": 170003,
+      "sha256": "87e5aa08a3d9228d16ea2830a78a2e432fabaf24c06d7c6f523d21510060c4f4"
+    },
+    {
+      "source": "photomaster-work/autodl_h20_demo_05/pipeline.log",
+      "archive_path": "photomaster-work/autodl_h20_demo_05/pipeline.log",
+      "status": "included",
+      "bytes": 11778,
+      "sha256": "2c069eb347bb85052526bc5e4fe297f7165b253a974d9facf18477ce6d885eff"
+    },
+    {
+      "source": "photomaster-work/autodl_h20_demo_05/run-settings.json",
+      "archive_path": "photomaster-work/autodl_h20_demo_05/run-settings.json",
+      "status": "included",
+      "bytes": 692,
+      "sha256": "0528e08482511476708fbd6f5cdd055ea7b8b16a64e38b96fa6dc85c9a3e477b"
+    },
+    {
+      "source": "photomaster-work/autodl_h20_demo_05/environment.txt",
+      "archive_path": "photomaster-work/autodl_h20_demo_05/environment.txt",
+      "status": "included",
+      "bytes": 5380,
+      "sha256": "20aa4b80ceee5f66ef7ff13e80ef91d75a6fbaa1098c313025038b2bb0920394"
+    },
+    {
+      "source": "photomaster-work/autodl_h20_demo_05/git-commit.txt",
+      "archive_path": "photomaster-work/autodl_h20_demo_05/git-commit.txt",
+      "status": "included",
+      "bytes": 41,
+      "sha256": "7ff1a3dd5dc7854c36aae8fc321b6cffaf755a55c355ecc408f17a912dbd89d8"
+    },
+    {
+      "source": "photomaster-work/autodl_h20_demo_05/SOURCE_PATCH.diff",
+      "archive_path": "photomaster-work/autodl_h20_demo_05/SOURCE_PATCH.diff",
+      "status": "included",
+      "bytes": 8940,
+      "sha256": "da544dfd386464f9bfe5cc7087f7582229e73fac521e4243543f63871dcddf05"
+    },
+    {
+      "source": "photomaster-work/autodl_h20_demo_05/SOURCE_FILES.sha256",
+      "archive_path": "photomaster-work/autodl_h20_demo_05/SOURCE_FILES.sha256",
+      "status": "included",
+      "bytes": 307,
+      "sha256": "7df362325e658ceafb9bc71af16ac397236c44a95865b664014282f6d0e69628"
+    },
+    {
+      "source": "photomaster-work/autodl_h20_demo_05/gpu-before.txt",
+      "archive_path": "photomaster-work/autodl_h20_demo_05/gpu-before.txt",
+      "status": "included",
+      "bytes": 11323,
+      "sha256": "736597cb5d5ba4b9a97033ad82ba222938faa0ddf536c6fe62d03fb72261cc29"
+    },
+    {
+      "source": "photomaster-work/autodl_h20_demo_05/gpu-samples.csv",
+      "archive_path": "photomaster-work/autodl_h20_demo_05/gpu-samples.csv",
+      "status": "included",
+      "bytes": 147968,
+      "sha256": "38189b1d1f711c504b1b6f8ecf7edccfd8198d52061fff2980676e3f8378779f"
+    },
+    {
+      "source": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/vlm_output.json",
+      "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/vlm_output.json",
+      "status": "included",
+      "bytes": 36047,
+      "sha256": "787421087c8591fa9fd76312b09c5c56cb9008b6a31aa9a53a09e08bab2688fa"
+    },
+    {
+      "source": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/dit_input.jsonl",
+      "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/dit_input.jsonl",
+      "status": "included",
+      "bytes": 5682,
+      "sha256": "192b2a8be2ec3c1006428031b29504c0622618c33586324430f381857ba5ba7c"
+    },
+    {
+      "source": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/-3hNHA9I5qo.jpg",
+      "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/-3hNHA9I5qo.jpg",
+      "status": "included",
+      "bytes": 158380,
+      "sha256": "4ac1dbb78a09ad5fd1a08a503f9d162a7a44e7afda7cbb3dfa30945f496472a9"
+    },
+    {
+      "source": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/-XIExTKngYE.jpg",
+      "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/-XIExTKngYE.jpg",
+      "status": "included",
+      "bytes": 94212,
+      "sha256": "c50b8b775d92ce57d0fa1ee9e1fb0f28633f90629f978ce32ed93a39d23c9ee2"
+    },
+    {
+      "source": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/00000111_5270.png",
+      "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/00000111_5270.png",
+      "status": "included",
+      "bytes": 2860700,
+      "sha256": "d54437aca23f27c859c5743dfefa0e77374876f300109ae47b544002289ba229"
+    },
+    {
+      "source": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/00000143_8300.png",
+      "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/00000143_8300.png",
+      "status": "included",
+      "bytes": 2050677,
+      "sha256": "2ff5443b6026f544a6290be1bbdcf037e1b57b67fffad4d24923235333700270"
+    },
+    {
+      "source": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/00000197_4980.png",
+      "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/00000197_4980.png",
+      "status": "included",
+      "bytes": 1885004,
+      "sha256": "b0545f162b97d87da62917a9b891132c5236fa79c8611449e8723cf1b972b0df"
+    },
+    {
+      "source": "PhotoMaster/bench/photomaster_bench/metadata.json",
+      "archive_path": "PhotoMaster/bench/photomaster_bench/metadata.json",
+      "status": "included",
+      "bytes": 1826,
+      "sha256": "bc42cb5aa2e1a8087d43dccdb1cb67b40306d95877f8ffec25079578f294df2a"
+    },
+    {
+      "source": "PhotoMaster/bench/photomaster_bench/img/-3hNHA9I5qo.jpg",
+      "archive_path": "PhotoMaster/bench/photomaster_bench/img/-3hNHA9I5qo.jpg",
+      "status": "included",
+      "bytes": 579009,
+      "sha256": "db075a90cddcb31df886d6a3701f253fd1fcb2d5ce256e47b3d8f4591be36e9c"
+    },
+    {
+      "source": "PhotoMaster/bench/photomaster_bench/img/-XIExTKngYE.jpg",
+      "archive_path": "PhotoMaster/bench/photomaster_bench/img/-XIExTKngYE.jpg",
+      "status": "included",
+      "bytes": 380253,
+      "sha256": "7a8eea6f7d5f385302e860b8a39e5ce19f56937040fd777c61608b140dfc8396"
+    },
+    {
+      "source": "PhotoMaster/bench/photomaster_bench/img/00000111_5270.png",
+      "archive_path": "PhotoMaster/bench/photomaster_bench/img/00000111_5270.png",
+      "status": "included",
+      "bytes": 257509,
+      "sha256": "13dafaefe45d0f2a30d639862ee5b9c1d0ac36e900f102e62a18ce4a35d68db5"
+    },
+    {
+      "source": "PhotoMaster/bench/photomaster_bench/img/00000143_8300.png",
+      "archive_path": "PhotoMaster/bench/photomaster_bench/img/00000143_8300.png",
+      "status": "included",
+      "bytes": 164171,
+      "sha256": "768f2e57f66121471d3f33928c6b79de7b53dba90351f1a79bb8d8bcb039295e"
+    },
+    {
+      "source": "PhotoMaster/bench/photomaster_bench/img/00000197_4980.png",
+      "archive_path": "PhotoMaster/bench/photomaster_bench/img/00000197_4980.png",
+      "status": "included",
+      "bytes": 653482,
+      "sha256": "5138113913637fa6f3b25830b1978a4540d3ba98a64d31a70595b2297c67c531"
+    },
+    {
+      "source": "PhotoMaster/models/download-revisions.json",
+      "archive_path": "download-revisions.json",
+      "status": "included",
+      "bytes": 532,
+      "sha256": "7b011b382d613dcd00a62ca7c1930162f86781a54c2b20b13239f3af61df2854"
+    }
+  ],
+  "included_count": 51,
+  "missing_count": 0
+}

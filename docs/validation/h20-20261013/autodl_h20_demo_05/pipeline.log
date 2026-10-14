@@ -1,0 +1,195 @@
+============================================
+  Stage 1 — VLM Inference
+============================================
+  Repo root:       /root/autodl-tmp/PhotoMaster
+  Model:           vlm
+  Model path:      /root/autodl-tmp/PhotoMaster/models/ft_ckpts/vlm
+  Base model:      /root/autodl-tmp/PhotoMaster/models/Qwen3-VL-32B-Instruct
+  Bench:           photomaster_bench
+  Data dir:        /root/autodl-tmp/PhotoMaster/bench/photomaster_bench
+  Run name:        autodl_h20_demo_05
+  Output:          /root/autodl-tmp/PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/vlm_output.json
+  System prompt:   /root/autodl-tmp/PhotoMaster/scripts/inference/prompts/system_prompt.txt
+  Max new tokens:  2048
+  Temperature:     0.7
+  Top-p / Top-k:   0.8 / 20
+  GPU mode:        single
+============================================
+
+[MODE] Single GPU
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loaded system prompt from: /root/autodl-tmp/PhotoMaster/scripts/inference/prompts/system_prompt.txt
+Loaded 5 samples from /root/autodl-tmp/PhotoMaster/bench/photomaster_bench/metadata.json
+Running distributed inference with 1 GPUs
+Total samples to process: 5
+[Rank 0] Processing 5 samples
+Detected LoRA checkpoint: /root/autodl-tmp/PhotoMaster/models/ft_ckpts/vlm
+  Base model: /root/autodl-tmp/PhotoMaster/models/Qwen3-VL-32B-Instruct
+  Device: auto, Dtype: bfloat16
+Loading base model on CPU for LoRA merge...
+Loading checkpoint shards:   0%|                                                                                                                                                       | 0/14 [00:00<?, ?it/s]Loading checkpoint shards: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 14/14 [00:00<00:00, 169.55it/s]
+LoRA adapter merged into base model. Moving to GPU...
+Model and processor loaded successfully.
+
+[Rank 0] ============================================================
+[Rank 0] [1/5] Processing sample 1 (original_img_path: img/-3hNHA9I5qo.jpg)
+[Rank 0]   Generated 3403 chars in 51.9s
+[Rank 0]   Preview: {
+  "Issues_Analysis": [
+    {
+      "Dimension": "A1 Subject Placement",
+      "Detail": "None"
+    },
+    {
+      "Dimension": "A2 Pose & Expression",
+      "Detail": "The subject is looking down an...
+[Rank 0]   Successfully parsed JSON output
+
+[Rank 0] ============================================================
+[Rank 0] [2/5] Processing sample 3 (original_img_path: img/-XIExTKngYE.jpg)
+[Rank 0]   Generated 4524 chars in 65.1s
+[Rank 0]   Preview: {
+  "Issues_Analysis": [
+    {
+      "Dimension": "A1 Subject Placement",
+      "Detail": "None"
+    },
+    {
+      "Dimension": "A2 Pose & Expression",
+      "Detail": "None"
+    },
+    {
+      "Dime...
+[Rank 0]   Successfully parsed JSON output
+
+[Rank 0] ============================================================
+[Rank 0] [3/5] Processing sample 6 (original_img_path: img/00000111_5270.png)
+[Rank 0]   Generated 3390 chars in 50.6s
+[Rank 0]   Preview: {
+  "Issues_Analysis": [
+    {
+      "Dimension": "A1 Subject Placement",
+      "Detail": "None"
+    },
+    {
+      "Dimension": "A2 Pose & Expression",
+      "Detail": "None"
+    },
+    {
+      "Dime...
+[Rank 0]   Successfully parsed JSON output
+
+[Rank 0] ============================================================
+[Rank 0] [4/5] Processing sample 10 (original_img_path: img/00000143_8300.png)
+[Rank 0]   Generated 4248 chars in 61.5s
+[Rank 0]   Preview: {
+  "Issues_Analysis": [
+    {
+      "Dimension": "A1 Subject Placement",
+      "Detail": "None"
+    },
+    {
+      "Dimension": "A2 Pose & Expression",
+      "Detail": "The subject's pose is somewhat...
+[Rank 0]   Successfully parsed JSON output
+
+[Rank 0] ============================================================
+[Rank 0] [5/5] Processing sample 12 (original_img_path: img/00000197_4980.png)
+[Rank 0]   Generated 3818 chars in 55.8s
+[Rank 0]   Preview: {
+  "Issues_Analysis": [
+    {
+      "Dimension": "A1 Subject Placement",
+      "Detail": "None"
+    },
+    {
+      "Dimension": "A2 Pose & Expression",
+      "Detail": "None"
+    },
+    {
+      "Dime...
+[Rank 0]   Successfully parsed JSON output
+
+[Rank 0] Gathering results from all ranks...
+
+============================================================
+Done! Processed 5 samples across 1 GPUs.
+Results saved to: /root/autodl-tmp/PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/vlm_output.json
+
+Inference time stats:
+  Total:   284.9s
+  Average: 57.0s per sample
+  Min:     50.6s
+  Max:     65.1s
+
+============================================
+[RESULT] Output saved to: /root/autodl-tmp/PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/vlm_output.json
+[TIME] Total: 7m 24s
+============================================
+============================================
+  Stage 2 — VLM output to DiT input
+============================================
+  Repo root:       /root/autodl-tmp/PhotoMaster
+  Bench:           photomaster_bench
+  Run name:        autodl_h20_demo_05
+  Input:           /root/autodl-tmp/PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/vlm_output.json
+  Output:          /root/autodl-tmp/PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/dit_input.jsonl
+============================================
+Converted 5 items: /root/autodl-tmp/PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/vlm_output.json -> /root/autodl-tmp/PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/dit_input.jsonl
+
+============================================
+[RESULT] Wrote 5 samples to: /root/autodl-tmp/PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/dit_input.jsonl
+============================================
+============================================
+  Stage 3 — Qwen Image Edit 2511 Inference
+============================================
+  Repo root:       /root/autodl-tmp/PhotoMaster
+  Model path:      /root/autodl-tmp/PhotoMaster/models/Qwen-Image-Edit-2511
+  FT checkpoint:   /root/autodl-tmp/PhotoMaster/models/ft_ckpts/i2i/photomaster_i2i.safetensors
+  Full FT weights: 1
+  Bench:           photomaster_bench
+  Run name:        autodl_h20_demo_05
+  JSONL:           /root/autodl-tmp/PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/dit_input.jsonl
+  Output dir:      /root/autodl-tmp/PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images
+  True CFG scale:  4.0
+  Inference steps: 50
+  Seed:            0
+  Output res:      1328
+  VAE input res:   1328
+  GPU mode:        single
+  GPUs per node:   8
+  Num nodes:       1
+============================================
+[MODE] Single GPU
+[Single GPU] Running on GPU 0
+Total samples: 5, this rank: 5
+[Rank 0] Loading pipeline from /root/autodl-tmp/PhotoMaster/models/Qwen-Image-Edit-2511...
+Using vendored Qwen Edit pipeline: diffusers.pipelines.qwenimage.pipeline_qwenimage_edit_plus_photomaster
+[Rank 0] Loaded full FT transformer: 1933 keys/shapes matched, BF16, zero_cond_t=True; base transformer weights skipped
+Loading pipeline components...:   0%|                                                                                                                                                   | 0/6 [00:00<?, ?it/s]Loading pipeline components...:  17%|███████████████████████▏                                                                                                                   | 1/6 [00:00<00:03,  1.54it/s]
+Loading checkpoint shards:   0%|                                                                                                                                                        | 0/4 [00:00<?, ?it/s][A
+Loading checkpoint shards:  25%|████████████████████████████████████                                                                                                            | 1/4 [00:00<00:01,  2.97it/s][ALoading checkpoint shards: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 10.71it/s]
+Loading pipeline components...:  33%|██████████████████████████████████████████████▎                                                                                            | 2/6 [00:01<00:02,  1.92it/s]Loading pipeline components...:  67%|████████████████████████████████████████████████████████████████████████████████████████████▋                                              | 4/6 [00:01<00:00,  3.74it/s]Loading pipeline components...: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:01<00:00,  4.57it/s]
+guidance_scale is passed as 1.0, but ignored since the model is not guidance-distilled.
+guidance_scale is passed as 1.0, but ignored since the model is not guidance-distilled.
+guidance_scale is passed as 1.0, but ignored since the model is not guidance-distilled.
+guidance_scale is passed as 1.0, but ignored since the model is not guidance-distilled.
+guidance_scale is passed as 1.0, but ignored since the model is not guidance-distilled.
+[Rank 0] Pipeline loaded in 30.8s
+[Rank 0] [1/5] Sample 1: 1536x1152, vae_input_resolution=1328, saved to /root/autodl-tmp/PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/-3hNHA9I5qo.jpg
+[Rank 0] [2/5] Sample 3: 1632x1088, vae_input_resolution=1328, saved to /root/autodl-tmp/PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/-XIExTKngYE.jpg
+[Rank 0] [3/5] Sample 6: 1152x1536, vae_input_resolution=1328, saved to /root/autodl-tmp/PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/00000111_5270.png
+[Rank 0] [4/5] Sample 10: 1328x1328, vae_input_resolution=1328, saved to /root/autodl-tmp/PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/00000143_8300.png
+[Rank 0] [5/5] Sample 12: 1088x1632, vae_input_resolution=1328, saved to /root/autodl-tmp/PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/00000197_4980.png
+[Rank 0] Done. Success: 5, Failed: 0
+Total output images: 5/5
+Total reported samples: success=5, failed=0
+
+============================================
+[RESULT] Output saved to: /root/autodl-tmp/PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images
+[TIME] Total: 29m 4s
+============================================
+
+real	36m28.534s
+user	20m37.745s
+sys	34m0.371s

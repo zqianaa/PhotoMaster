@@ -1,0 +1,17 @@
+[
+  {
+    "repo": "Qwen/Qwen3-VL-32B-Instruct",
+    "revision": "0cfaf48183f594c314753d30a4c4974bc75f3ccb",
+    "path": "/root/autodl-tmp/PhotoMaster/models/Qwen3-VL-32B-Instruct"
+  },
+  {
+    "repo": "Qwen/Qwen-Image-Edit-2511",
+    "revision": "6f3ccc0b56e431dc6a0c2b2039706d7d26f22cb9",
+    "path": "/root/autodl-tmp/PhotoMaster/models/Qwen-Image-Edit-2511"
+  },
+  {
+    "repo": "WilsonCahu/PhotoMaster",
+    "revision": "ba78362f91a8c6856a1a4605a9fef04e78c06e63",
+    "path": "/root/autodl-tmp/PhotoMaster/models/ft_ckpts"
+  }
+]

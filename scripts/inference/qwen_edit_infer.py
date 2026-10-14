@@ -359,37 +359,34 @@ def main():
     if skipped > 0:
         print(f"[Rank {rank}] Skipping {skipped} already-completed samples, {len(pending)} remaining")
 
-    if not pending:
-        print(f"[Rank {rank}] All samples already completed")
-        if world_size > 1:
-            torch.distributed.barrier()
-            torch.distributed.destroy_process_group()
-        return
-
-    # Load pipeline
-    print(f"[Rank {rank}] Loading pipeline from {args.model_path}...")
-    t0 = time.time()
-
-    QwenImageEditPlusPipeline = load_qwen_image_edit_plus_pipeline_class()
-    if is_main:
-        print(f"Using vendored Qwen Edit pipeline: {QwenImageEditPlusPipeline.__module__}")
-    pipeline_kwargs = {}
-    if args.full_transformer_checkpoint:
-        pipeline_kwargs["transformer"] = load_full_transformer(args.model_path, args.ckpt_path, rank)
-    pipeline = QwenImageEditPlusPipeline.from_pretrained(
-        args.model_path, torch_dtype=torch.bfloat16, **pipeline_kwargs
-    )
-    if not args.full_transformer_checkpoint:
-        apply_ft_checkpoint(pipeline, args.ckpt_path, rank)
-    pipeline.to(f"cuda:{local_rank}")
-    pipeline.set_progress_bar_config(disable=True)
-
-    t1 = time.time()
-    print(f"[Rank {rank}] Pipeline loaded in {t1 - t0:.1f}s")
-
-    # Run inference
     success = 0
     failed = 0
+    if pending:
+        # Load pipeline
+        print(f"[Rank {rank}] Loading pipeline from {args.model_path}...")
+        t0 = time.time()
+
+        QwenImageEditPlusPipeline = load_qwen_image_edit_plus_pipeline_class()
+        if is_main:
+            print(f"Using vendored Qwen Edit pipeline: {QwenImageEditPlusPipeline.__module__}")
+        pipeline_kwargs = {}
+        if args.full_transformer_checkpoint:
+            pipeline_kwargs["transformer"] = load_full_transformer(args.model_path, args.ckpt_path, rank)
+        pipeline = QwenImageEditPlusPipeline.from_pretrained(
+            args.model_path, torch_dtype=torch.bfloat16, **pipeline_kwargs
+        )
+        if not args.full_transformer_checkpoint:
+            apply_ft_checkpoint(pipeline, args.ckpt_path, rank)
+        pipeline.to(f"cuda:{local_rank}")
+        pipeline.set_progress_bar_config(disable=True)
+
+        t1 = time.time()
+        print(f"[Rank {rank}] Pipeline loaded in {t1 - t0:.1f}s")
+
+    else:
+        print(f"[Rank {rank}] No pending samples; skipping pipeline load")
+
+    # Run inference
     for idx, sample in enumerate(pending):
         sid = get_sample_id(sample)
         out_path = get_output_path(sample, args.output_dir)
@@ -435,6 +432,7 @@ def main():
             failed += 1
             print(f"[Rank {rank}] [{idx+1}/{len(pending)}] Sample {sid}: ERROR - {e}")
 
+    # Empty and completed shards must join the same collectives as active ranks.
     local_counts = torch.tensor([success, failed], dtype=torch.long, device=f"cuda:{local_rank}")
     if world_size > 1:
         torch.distributed.all_reduce(local_counts, op=torch.distributed.ReduceOp.SUM)
@@ -445,17 +443,15 @@ def main():
 
     exit_code = 1 if total_failed > 0 else 0
     if is_main:
-        output_exts = {".png", ".jpg", ".jpeg", ".webp"}
-        total_output = sum(
-            1 for f in os.listdir(args.output_dir)
-            if os.path.splitext(f)[1].lower() in output_exts
-        )
-        print(f"Total output images: {total_output}/{len(samples)}")
+        expected_paths = [get_output_path(sample, args.output_dir) for sample in samples]
+        missing_paths = [path for path in expected_paths if not os.path.isfile(path)]
+        total_output = len(expected_paths) - len(missing_paths)
+        print(f"Total expected output images present: {total_output}/{len(samples)}")
         print(f"Total reported samples: success={total_success}, failed={total_failed}")
-        if total_output < len(samples):
+        if missing_paths:
             print(
                 f"[ERROR] Qwen Edit output incomplete: "
-                f"{total_output}/{len(samples)} images were produced"
+                f"{len(missing_paths)} expected images missing: {missing_paths[:5]}"
             )
             exit_code = 1
 

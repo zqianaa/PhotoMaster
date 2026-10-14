@@ -1,0 +1,51 @@
+{
+  "model_path": "/root/autodl-tmp/PhotoMaster/models/ft_ckpts/vlm",
+  "data_dir": "/root/autodl-tmp/PhotoMaster/bench/photomaster_bench",
+  "system_prompt_file": "/root/autodl-tmp/PhotoMaster/scripts/inference/prompts/system_prompt.txt",
+  "max_new_tokens": 2048,
+  "temperature": 0.7,
+  "top_p": 0.8,
+  "top_k": 20,
+  "num_samples_limit": 1,
+  "save_raw_outputs": false,
+  "num_samples": 1,
+  "world_size": 1,
+  "results": [
+    {
+      "index": 1,
+      "scene": null,
+      "task": null,
+      "action": null,
+      "defect_list_zh": null,
+      "defect": null,
+      "defect_zh": null,
+      "suggestion_list_zh": null,
+      "suggestion": null,
+      "suggestion_zh": null,
+      "original_img_path": "img/-3hNHA9I5qo.jpg",
+      "save_name": "-3hNHA9I5qo.jpg",
+      "ref_img_path": null,
+      "tag": null,
+      "Issues_Analysis": "【C1 Shot Size】The subject is framed too small within the overall composition, leaving an excessive amount of empty sky above her and reducing the visual impact of her pose and expression.\n【F2 Compositional Structure】The heavy diagonal line of the balcony railing cuts aggressively across the lower half of the frame, dominating the composition and drawing attention away from the subject. The subject is placed too low in the frame, making the empty sky occupy the majority of the image.",
+      "Professional_Suggestions": "【B1 Camera Position】Move closer to the balcony or have the subject step closer to the edge, reducing the physical distance between the camera and the subject.\n【B2 Shooting Angle】Lower the camera slightly and tilt it upwards just enough to keep the balcony railing relatively horizontal across the lower third of the frame, rather than shooting from a steep upward angle that creates a severe diagonal line.\n【C1 Shot Size】Zoom in or physically move closer until the subject occupies approximately 60% of the frame height, cropping out the excessive empty sky above her head.",
+      "Image_Editing_Prompt": "Preserve the subject's identity, facial features, and clothing exactly as they are. The ideal final image is a medium shot where the young girl occupies about 60% of the frame height, standing behind a black wrought-iron balcony railing. The camera angle is slightly low but leveled so the railing forms a relatively horizontal line across the lower third of the frame, rather than a steep diagonal. The subject is positioned centrally, looking down with her hands raised in a playful gesture. The depth of field remains relatively deep, keeping both the girl and the textured building wall behind her in focus. The lighting is soft and overcast, providing even illumination on her face. The color palette features the muted blue of her dress contrasting with the neutral tones of the building and the overcast sky. The background consists of the textured wall on the right and a cloudy sky above, with the framing cropping out excess empty space to focus entirely on the girl's expression and pose.",
+      "model_output_raw": "{\n  \"Issues_Analysis\": [\n    {\n      \"Dimension\": \"A1 Subject Placement\",\n      \"Detail\": \"None\"\n    },\n    {\n      \"Dimension\": \"A2 Pose & Expression\",\n      \"Detail\": \"None\"\n    },\n    {\n      \"Dimension\": \"B1 Camera Position\",\n      \"Detail\": \"None\"\n    },\n    {\n      \"Dimension\": \"B2 Shooting Angle\",\n      \"Detail\": \"None\"\n    },\n    {\n      \"Dimension\": \"C1 Shot Size\",\n      \"Detail\": \"The subject is framed too small within the overall composition, leaving an excessive amount of empty sky above her and reducing the visual impact of her pose and expression.\"\n    },\n    {\n      \"Dimension\": \"C2 Depth of Field\",\n      \"Detail\": \"None\"\n    },\n    {\n      \"Dimension\": \"D1 Motion Treatment\",\n      \"Detail\": \"None\"\n    },\n    {\n      \"Dimension\": \"D2 Decisive Moment\",\n      \"Detail\": \"None\"\n    },\n    {\n      \"Dimension\": \"E1 Lighting Utilization\",\n      \"Detail\": \"None\"\n    },\n    {\n      \"Dimension\": \"E2 Color & Tonal Key\",\n      \"Detail\": \"None\"\n    },\n    {\n      \"Dimension\": \"F1 Background\",\n      \"Detail\": \"None\",\n      \"Attribution\": \"None\"\n    },\n    {\n      \"Dimension\": \"F2 Compositional Structure\",\n      \"Detail\": \"The heavy diagonal line of the balcony railing cuts aggressively across the lower half of the frame, dominating the composition and drawing attention away from the subject. The subject is placed too low in the frame, making the empty sky occupy the majority of the image.\",\n      \"Attribution\": [\n        \"B1 Camera Position\",\n        \"B2 Shooting Angle\",\n        \"C1 Shot Size\"\n      ]\n    }\n  ],\n  \"Professional_Suggestions\": [\n    {\n      \"Dimension\": \"A1 Subject Placement\",\n      \"Detail\": \"None\"\n    },\n    {\n      \"Dimension\": \"A2 Pose & Expression\",\n      \"Detail\": \"None\"\n    },\n    {\n      \"Dimension\": \"B1 Camera Position\",\n      \"Detail\": \"Move closer to the balcony or have the subject step closer to the edge, reducing the physical distance between the camera and the subject.\"\n    },\n    {\n      \"Dimension\": \"B2 Shooting Angle\",\n      \"Detail\": \"Lower the camera slightly and tilt it upwards just enough to keep the balcony railing relatively horizontal across the lower third of the frame, rather than shooting from a steep upward angle that creates a severe diagonal line.\"\n    },\n    {\n      \"Dimension\": \"C1 Shot Size\",\n      \"Detail\": \"Zoom in or physically move closer until the subject occupies approximately 60% of the frame height, cropping out the excessive empty sky above her head.\"\n    },\n    {\n      \"Dimension\": \"C2 Depth of Field\",\n      \"Detail\": \"None\"\n    },\n    {\n      \"Dimension\": \"D1 Motion Treatment\",\n      \"Detail\": \"None\"\n    },\n    {\n      \"Dimension\": \"D2 Decisive Moment\",\n      \"Detail\": \"None\"\n    },\n    {\n      \"Dimension\": \"E1 Lighting Utilization\",\n      \"Detail\": \"None\"\n    },\n    {\n      \"Dimension\": \"E2 Color & Tonal Key\",\n      \"Detail\": \"None\"\n    }\n  ],\n  \"Image_Editing_Prompt\": \"Preserve the subject's identity, facial features, and clothing exactly as they are. The ideal final image is a medium shot where the young girl occupies about 60% of the frame height, standing behind a black wrought-iron balcony railing. The camera angle is slightly low but leveled so the railing forms a relatively horizontal line across the lower third of the frame, rather than a steep diagonal. The subject is positioned centrally, looking down with her hands raised in a playful gesture. The depth of field remains relatively deep, keeping both the girl and the textured building wall behind her in focus. The lighting is soft and overcast, providing even illumination on her face. The color palette features the muted blue of her dress contrasting with the neutral tones of the building and the overcast sky. The background consists of the textured wall on the right and a cloudy sky above, with the framing cropping out excess empty space to focus entirely on the girl's expression and pose.\"\n}",
+      "inference_time_s": 60.28,
+      "processed_by_rank": 0,
+      "generated_token_count": 907,
+      "ended_with_eos_token": true,
+      "hit_max_new_tokens": false,
+      "eos_token_ids": [
+        151643,
+        151645
+      ],
+      "image_grid_thw": [
+        [
+          1,
+          54,
+          72
+        ]
+      ]
+    }
+  ]
+}

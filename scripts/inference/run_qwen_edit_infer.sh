@@ -18,21 +18,24 @@
 # Environment variables:
 #   MODEL_PATH       Path to Qwen-Image-Edit-2511 weights
 #                    (default: <repo>/models/Qwen-Image-Edit-2511)
-#   FT_CKPT_PATH     Optional fine-tuned DiT .safetensors checkpoint. Unset by default,
-#                    so the base model runs; the I2I training output lands under
-#                    <repo>/models/ft_ckpts/i2i/ (e.g. epoch-2.safetensors).
+#   FT_CKPT_PATH     Fine-tuned DiT checkpoint (default:
+#                    <repo>/models/ft_ckpts/i2i/photomaster_i2i.safetensors).
 #   FT_CKPT_IS_FULL  If 1, require a complete 2511 transformer checkpoint and skip
-#                    base transformer weights; transformer/config.json is still required (default: 0).
+#                    base transformer weights; transformer/config.json is still required.
+#                    Defaults to 1 for the default published checkpoint, 0 for an explicit path.
+#   ALLOW_BASE_DIT   If 1, deliberately run the base renderer without a fine-tuned
+#                    checkpoint; leave FT_CKPT_PATH unset (default: 0).
 #   SAVE_MODEL_NAME  Output subfolder name (default: qwen_edit_images)
 #   TRUE_CFG_SCALE   True CFG scale (default: 4.0)
 #   INFERENCE_STEPS  Number of inference steps (default: 50)
 #   SEED             Random seed (default: 0)
 #   QWEN_OUTPUT_RESOLUTION      Square-equivalent output resolution: 1024 or 1328 (default: 1328)
 #   QWEN_VAE_INPUT_RESOLUTION   Square-equivalent VAE input resolution: 1024 or 1328 (default: 1328)
-#   GPU_MODE         single / multi_gpu / multi_node (default: multi_gpu)
+#   GPU_MODE         single / multi_gpu / multi_node (default: single)
 #   GPUS_PER_NODE    GPUs per node (default: 8)
 #   NUM_NODES        Number of nodes, multi_node only (default: 1)
 #   MASTER_ADDR      Rendezvous host for multi_node (default: localhost)
+#   MASTER_PORT      Rendezvous port for multi_node (default: 29500)
 
 set -euo pipefail
 
@@ -51,15 +54,24 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 
 MODEL_PATH="${MODEL_PATH:-${REPO_ROOT}/models/Qwen-Image-Edit-2511}"
-FT_CKPT_PATH="${FT_CKPT_PATH:-}"
-FT_CKPT_IS_FULL="${FT_CKPT_IS_FULL:-0}"
+ALLOW_BASE_DIT="${ALLOW_BASE_DIT:-0}"
+if [ -n "${FT_CKPT_PATH:-}" ]; then
+    # Explicit paths may be partial training checkpoints; preserve that loading mode.
+    FT_CKPT_IS_FULL="${FT_CKPT_IS_FULL:-0}"
+elif [ "$ALLOW_BASE_DIT" = "1" ]; then
+    FT_CKPT_PATH=""
+    FT_CKPT_IS_FULL="${FT_CKPT_IS_FULL:-0}"
+else
+    FT_CKPT_PATH="${REPO_ROOT}/models/ft_ckpts/i2i/photomaster_i2i.safetensors"
+    FT_CKPT_IS_FULL="${FT_CKPT_IS_FULL:-1}"
+fi
 SAVE_MODEL_NAME="${SAVE_MODEL_NAME:-qwen_edit_images}"
 TRUE_CFG_SCALE="${TRUE_CFG_SCALE:-4.0}"
 INFERENCE_STEPS="${INFERENCE_STEPS:-50}"
 SEED="${SEED:-0}"
 QWEN_OUTPUT_RESOLUTION="${QWEN_OUTPUT_RESOLUTION:-1328}"
 QWEN_VAE_INPUT_RESOLUTION="${QWEN_VAE_INPUT_RESOLUTION:-1328}"
-GPU_MODE="${GPU_MODE:-multi_gpu}"
+GPU_MODE="${GPU_MODE:-single}"
 GPUS_PER_NODE="${GPUS_PER_NODE:-8}"
 NUM_NODES="${NUM_NODES:-1}"
 
@@ -92,6 +104,14 @@ echo "============================================"
 # -----------------------------------------------------------------------
 # Validate
 # -----------------------------------------------------------------------
+if [[ "$ALLOW_BASE_DIT" != "0" && "$ALLOW_BASE_DIT" != "1" ]]; then
+    echo "[ERROR] ALLOW_BASE_DIT must be 0 or 1."
+    exit 1
+fi
+if [[ "$ALLOW_BASE_DIT" == "1" && -n "$FT_CKPT_PATH" ]]; then
+    echo "[ERROR] ALLOW_BASE_DIT=1 requires FT_CKPT_PATH to be unset."
+    exit 1
+fi
 if [[ "$FT_CKPT_IS_FULL" != "0" && "$FT_CKPT_IS_FULL" != "1" ]]; then
     echo "[ERROR] FT_CKPT_IS_FULL must be 0 or 1."
     exit 1
@@ -107,6 +127,8 @@ if [ ! -d "$MODEL_PATH" ]; then
 fi
 if [ -n "$FT_CKPT_PATH" ] && [ ! -f "$FT_CKPT_PATH" ]; then
     echo "[ERROR] FT checkpoint not found: $FT_CKPT_PATH"
+    echo "        Download the PhotoMaster checkpoint or set FT_CKPT_PATH."
+    echo "        For a deliberate base-model experiment, unset FT_CKPT_PATH and use ALLOW_BASE_DIT=1."
     exit 1
 fi
 if [ ! -f "$JSONL_PATH" ]; then
@@ -154,7 +176,7 @@ elif [ "$GPU_MODE" = "multi_node" ]; then
         --nproc_per_node="$GPUS_PER_NODE" \
         --rdzv_id="${SLURM_JOB_ID:-0}" \
         --rdzv_backend=c10d \
-        --rdzv_endpoint="${MASTER_ADDR:-localhost}:29500" \
+        --rdzv_endpoint="${MASTER_ADDR:-localhost}:${MASTER_PORT:-29500}" \
         "$INFER_SCRIPT" "${COMMON_ARGS[@]}"
 else
     echo "[ERROR] Unknown GPU_MODE: $GPU_MODE"

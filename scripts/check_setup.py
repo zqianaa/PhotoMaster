@@ -41,6 +41,22 @@ def check_data(data_dir):
     return errors
 
 
+def check_flash_attention():
+    """Check the required CUDA extension without allocating tensors or loading weights."""
+    try:
+        print(f"flash-attn: {importlib.metadata.version('flash-attn')}")
+        importlib.import_module("flash_attn")
+        # A package can be installed while its binary has an incompatible PyTorch/CUDA ABI.
+        importlib.import_module("flash_attn_2_cuda")
+    except Exception as exc:
+        return [
+            f"FlashAttention import failed: {type(exc).__name__}: {exc}. "
+            "The VLM requires flash_attention_2; install a flash-attn wheel matching "
+            "the active Python, PyTorch, CUDA and C++ ABI (see docs/quickstart.md)."
+        ]
+    return []
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-dir", type=Path, default=ROOT / "bench/photomaster_bench")
@@ -69,6 +85,7 @@ def main():
                 print(f"{package}: {importlib.metadata.version(package)}")
             except importlib.metadata.PackageNotFoundError:
                 errors.append(f"Dependency missing: {package}")
+        errors.extend(check_flash_attention())
         try:
             import torch
             if not torch.cuda.is_available():

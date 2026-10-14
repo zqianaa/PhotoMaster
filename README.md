@@ -26,32 +26,27 @@ PhotoMaster helps photographers decide **what to do before taking the next shot*
 - **Inference code and five example inputs**, plus VLM and DiT training code and experiment configurations.
 - **PhotoMaster-Data:** 236,904 triplets reported in the paper, constructed with Forward Decision Transfer and Decision Inversion. See the [data guide](docs/data.md) for the distinction between paper statistics and the downloadable release.
 
-> **Release status:** the hosted checkpoint mapping is documented, and one-image and five-image pipelines completed on a single H20. The included five-image set is an inference demo, not the full 377-case PhotoMaster-Bench. Raw evidence verification, visual review, an environment lock, project licensing and full benchmark reproduction remain release tasks; see the [GPU execution report](docs/gpu-validation.md) and [release status](docs/release-status.md).
+> **Release status:** the hosted checkpoint mapping is documented, and one-image and five-image pipelines completed on a single H20. The included five-image set is an inference demo, not the full 377-case PhotoMaster-Bench. The retrieved execution evidence has passed local integrity checks. The tested environment, pinned model revisions, exact wheel hashes and installation steps are recorded. The inference entry point now checks both stages before generation, defaults to one GPU and the PhotoMaster weights, and rejects reused run directories. A complete portable environment lock, project licensing and full benchmark reproduction remain release tasks; see the [GPU execution report](docs/gpu-validation.md) and [release status](docs/release-status.md).
 
 ## Try PhotoMaster
+
+These instructions currently target `codex/open-source-release` (PR #1), which has not been merged into `main`.
 
 The current model workers target Linux with NVIDIA CUDA. The recorded one-image and five-image runs used an H20 with 97,871 MiB total memory and reached a highest sampled whole-card usage of 67,781 MiB. See the [GPU execution report](docs/gpu-validation.md) for settings and measurement limits; other GPU memory capacities have not been verified. The paper reports inference on an 80 GB GPU, which is a paper-reported setup rather than a measured minimum requirement.
 
 ```bash
-git clone https://github.com/zqianaa/PhotoMaster.git
+git clone --branch codex/open-source-release https://github.com/zqianaa/PhotoMaster.git
 cd PhotoMaster
-python -m venv .venv
-source .venv/bin/activate
-# Install the PyTorch build appropriate for your CUDA setup first.
-python -m pip install -r requirements-inference.txt
-
-# Check the included example inputs without downloading any weights.
+# Follow the recorded Linux/Python 3.12/CUDA 12.8 installation recipe below.
+# After activating that environment, check the included inputs without weights:
 python scripts/check_setup.py --data-only
 ```
 
-Follow the [quick start](docs/quickstart.md) to place the base models and PhotoMaster checkpoints. With those files in place:
+For the verified H20 configuration, use the [recorded environment and installation recipe](environments/inference-h20-cu128/README.md), including its separate FlashAttention installation. Follow the [quick start](docs/quickstart.md) to place the base models and PhotoMaster checkpoints. With those files in place:
 
 ```bash
-# Use the complete published PhotoMaster transformer checkpoint.
-export FT_CKPT_PATH="$PWD/models/ft_ckpts/i2i/photomaster_i2i.safetensors"
-export FT_CKPT_IS_FULL=1
-python scripts/check_setup.py --ft-ckpt "$FT_CKPT_PATH"
-GPU_MODE=single RUN_NAME=photomaster_demo \
+# Defaults: one GPU and the complete published PhotoMaster checkpoint.
+RUN_NAME=photomaster_demo \
   bash scripts/inference/run_pipeline.sh vlm photomaster_bench
 ```
 
@@ -67,11 +62,13 @@ To use your own photo:
 
 ```bash
 python scripts/inference/prepare_input.py /path/to/photo.jpg --name demo_my_photo
-FT_CKPT_IS_FULL=1 GPU_MODE=single RUN_NAME=photomaster_demo \
+RUN_NAME=photomaster_demo \
   bash scripts/inference/run_pipeline.sh vlm demo_my_photo
 ```
 
-Keep `FT_CKPT_PATH` exported and `FT_CKPT_IS_FULL=1` for the published complete checkpoint. This mode also supports omitting the base transformer weight files as described in the [quick start](docs/quickstart.md); partial checkpoints use the default loading mode with all base weights. Personal `demo_*` inputs and generated results are gitignored.
+Each pipeline invocation requires an unused `RUN_NAME` within that benchmark. Both stages default to one GPU, and the renderer defaults to the complete `models/ft_ckpts/i2i/photomaster_i2i.safetensors` checkpoint. Custom checkpoint paths require an explicit loading-mode choice as documented in the [quick start](docs/quickstart.md). Personal `demo_*` inputs and generated results are gitignored.
+
+The [execution report](docs/gpu-validation.md) contains timings, memory measurements and verification scope. [Saved examples](docs/examples.md) are provided as supplementary outputs.
 
 ## How it works
 

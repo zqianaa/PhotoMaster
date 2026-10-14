@@ -1,0 +1,1446 @@
+{
+  "format_version": 1,
+  "audited_at_utc": "2026-10-14T08:06:17.063416+00:00",
+  "audit_type": "independent offline read-only payload inspection; only this summary written",
+  "evidence_root": "Original archive (see archive-manifest.json)",
+  "repository": "zqianaa/PhotoMaster",
+  "reference_commit": "e7c2e15c080396a1cb04e09fac0ae7a870eba261",
+  "overall": "pass_with_caveats",
+  "checks": [
+    {
+      "name": "manifest_payload_hashes_and_sizes",
+      "passed": true,
+      "details": {
+        "included_count": 51
+      }
+    },
+    {
+      "name": "sequence_success",
+      "passed": true
+    },
+    {
+      "name": "final_event_matches_status",
+      "passed": true
+    },
+    {
+      "name": "benchmark_metadata_matches_target_commit",
+      "passed": true
+    },
+    {
+      "name": "benchmark_input_images_match_target_commit",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_smoke_01:counts_ids_and_names",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_smoke_01:settings",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_smoke_01:1:Issues_Analysis_flattening",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_smoke_01:1:Professional_Suggestions_flattening",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_smoke_01:1:prompt_and_metadata_chain",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_smoke_01:1:generation_termination",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_smoke_01:1:image_dimensions_readability_and_changed_bytes",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_smoke_01:exact_output_file_set",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_smoke_01:gpu_samples_valid_single_h20",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_smoke_01:logs_report_success",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_smoke_01:logs_full_transformer_keys_and_shape_match",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_smoke_01:no_fatal_or_parse_errors_in_pipeline_log",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_smoke_01:no_cached_image_skips_in_log",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_smoke_01:csv_and_sequence_timing_consistent_at_utc_plus_8",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_smoke_01:source_hashes_match_target",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_smoke_01:patch_equals_target_diff",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:counts_ids_and_names",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:settings",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:1:Issues_Analysis_flattening",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:1:Professional_Suggestions_flattening",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:1:prompt_and_metadata_chain",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:1:generation_termination",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:1:image_dimensions_readability_and_changed_bytes",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:3:Issues_Analysis_flattening",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:3:Professional_Suggestions_flattening",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:3:prompt_and_metadata_chain",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:3:generation_termination",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:3:image_dimensions_readability_and_changed_bytes",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:6:Issues_Analysis_flattening",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:6:Professional_Suggestions_flattening",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:6:prompt_and_metadata_chain",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:6:generation_termination",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:6:image_dimensions_readability_and_changed_bytes",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:10:Issues_Analysis_flattening",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:10:Professional_Suggestions_flattening",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:10:prompt_and_metadata_chain",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:10:generation_termination",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:10:image_dimensions_readability_and_changed_bytes",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:12:Issues_Analysis_flattening",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:12:Professional_Suggestions_flattening",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:12:prompt_and_metadata_chain",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:12:generation_termination",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:12:image_dimensions_readability_and_changed_bytes",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:exact_output_file_set",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:gpu_samples_valid_single_h20",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:logs_report_success",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:logs_full_transformer_keys_and_shape_match",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:no_fatal_or_parse_errors_in_pipeline_log",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:no_cached_image_skips_in_log",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:csv_and_sequence_timing_consistent_at_utc_plus_8",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:source_hashes_match_target",
+      "passed": true
+    },
+    {
+      "name": "autodl_h20_demo_05:patch_equals_target_diff",
+      "passed": true
+    },
+    {
+      "name": "source_provenance_identical_between_runs",
+      "passed": true
+    },
+    {
+      "name": "recorded_environments_identical",
+      "passed": true
+    }
+  ],
+  "failed_checks": [],
+  "manifest": {
+    "included_count": 51,
+    "not_included_count": 0,
+    "payload_verification": [
+      {
+        "archive_path": "photomaster-work/sequence/status.json",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/sequence/events.jsonl",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/sequence/sequence.log",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/sequence/smoke_01.log",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/sequence/demo_05.log",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/full-loader-check.log",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/cpu-tests.log",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/transformer-schema.log",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/gpu-access-failure.log",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/gpu-after-restart.log",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/sequence-before-gpu-restart-1629/status.json",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/sequence-before-gpu-restart-1629/events.jsonl",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/sequence-before-gpu-restart-1629/sequence.log",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/sequence-before-download-retry-1713/status.json",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/sequence-before-download-retry-1713/events.jsonl",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/sequence-before-download-retry-1713/sequence.log",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "autodl_photomaster_prepare.sh",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "autodl_run_sequence.sh",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/autodl_h20_smoke_01/pipeline.log",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/autodl_h20_smoke_01/run-settings.json",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/autodl_h20_smoke_01/environment.txt",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/autodl_h20_smoke_01/git-commit.txt",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/autodl_h20_smoke_01/SOURCE_PATCH.diff",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/autodl_h20_smoke_01/SOURCE_FILES.sha256",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/autodl_h20_smoke_01/gpu-before.txt",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/autodl_h20_smoke_01/gpu-samples.csv",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_smoke_01/vlm_output.json",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_smoke_01/dit_input.jsonl",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_smoke_01/qwen_edit_images/-3hNHA9I5qo.jpg",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/autodl_h20_demo_05/pipeline.log",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/autodl_h20_demo_05/run-settings.json",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/autodl_h20_demo_05/environment.txt",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/autodl_h20_demo_05/git-commit.txt",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/autodl_h20_demo_05/SOURCE_PATCH.diff",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/autodl_h20_demo_05/SOURCE_FILES.sha256",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/autodl_h20_demo_05/gpu-before.txt",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "photomaster-work/autodl_h20_demo_05/gpu-samples.csv",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/vlm_output.json",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/dit_input.jsonl",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/-3hNHA9I5qo.jpg",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/-XIExTKngYE.jpg",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/00000111_5270.png",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/00000143_8300.png",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/00000197_4980.png",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "PhotoMaster/bench/photomaster_bench/metadata.json",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "PhotoMaster/bench/photomaster_bench/img/-3hNHA9I5qo.jpg",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "PhotoMaster/bench/photomaster_bench/img/-XIExTKngYE.jpg",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "PhotoMaster/bench/photomaster_bench/img/00000111_5270.png",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "PhotoMaster/bench/photomaster_bench/img/00000143_8300.png",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "PhotoMaster/bench/photomaster_bench/img/00000197_4980.png",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      },
+      {
+        "archive_path": "download-revisions.json",
+        "status": "included",
+        "bytes_match": true,
+        "sha256_match": true
+      }
+    ],
+    "note": "Manifest itself is collection metadata, not an independent signature."
+  },
+  "sequence": {
+    "status": "succeeded",
+    "exit_code": 0,
+    "started_at_utc": "2026-10-13T09:13:14.544455+00:00",
+    "ended_at_utc": "2026-10-13T11:49:56.827436+00:00",
+    "download_stage_seconds": 6536.298807,
+    "total_sequence_seconds": 9402.282981
+  },
+  "source_mapping": {
+    "autodl_h20_smoke_01": {
+      "recorded_base_commit": "01f7eed76c81938721cde119cc52e54737efd93c",
+      "target_commit": "e7c2e15c080396a1cb04e09fac0ae7a870eba261",
+      "hashes": [
+        {
+          "path": "scripts/inference/qwen_edit_infer.py",
+          "recorded_sha256": "5ebd8186f01a3c7f0d763e3038318c73317431c7421f45c099af56f4ff66c22a",
+          "target_commit_sha256": "5ebd8186f01a3c7f0d763e3038318c73317431c7421f45c099af56f4ff66c22a",
+          "match": true
+        },
+        {
+          "path": "scripts/inference/run_qwen_edit_infer.sh",
+          "recorded_sha256": "8e90a0484489ebd100e65a27918b564bf9f153e5b7223253e8fd35385355c442",
+          "target_commit_sha256": "8e90a0484489ebd100e65a27918b564bf9f153e5b7223253e8fd35385355c442",
+          "match": true
+        },
+        {
+          "path": "tests/test_full_transformer.py",
+          "recorded_sha256": "f2d80e89012a9fa72e11bfdd54439110e6a310c80d89885b3b542d37ea37a95d",
+          "target_commit_sha256": "f2d80e89012a9fa72e11bfdd54439110e6a310c80d89885b3b542d37ea37a95d",
+          "match": true
+        }
+      ],
+      "patch_paths": [
+        "scripts/inference/qwen_edit_infer.py",
+        "scripts/inference/run_qwen_edit_infer.sh"
+      ],
+      "patch_sha256": "da544dfd386464f9bfe5cc7087f7582229e73fac521e4243543f63871dcddf05",
+      "patch_equals_target_diff_for_recorded_paths": true
+    },
+    "autodl_h20_demo_05": {
+      "recorded_base_commit": "01f7eed76c81938721cde119cc52e54737efd93c",
+      "target_commit": "e7c2e15c080396a1cb04e09fac0ae7a870eba261",
+      "hashes": [
+        {
+          "path": "scripts/inference/qwen_edit_infer.py",
+          "recorded_sha256": "5ebd8186f01a3c7f0d763e3038318c73317431c7421f45c099af56f4ff66c22a",
+          "target_commit_sha256": "5ebd8186f01a3c7f0d763e3038318c73317431c7421f45c099af56f4ff66c22a",
+          "match": true
+        },
+        {
+          "path": "scripts/inference/run_qwen_edit_infer.sh",
+          "recorded_sha256": "8e90a0484489ebd100e65a27918b564bf9f153e5b7223253e8fd35385355c442",
+          "target_commit_sha256": "8e90a0484489ebd100e65a27918b564bf9f153e5b7223253e8fd35385355c442",
+          "match": true
+        },
+        {
+          "path": "tests/test_full_transformer.py",
+          "recorded_sha256": "f2d80e89012a9fa72e11bfdd54439110e6a310c80d89885b3b542d37ea37a95d",
+          "target_commit_sha256": "f2d80e89012a9fa72e11bfdd54439110e6a310c80d89885b3b542d37ea37a95d",
+          "match": true
+        }
+      ],
+      "patch_paths": [
+        "scripts/inference/qwen_edit_infer.py",
+        "scripts/inference/run_qwen_edit_infer.sh"
+      ],
+      "patch_sha256": "da544dfd386464f9bfe5cc7087f7582229e73fac521e4243543f63871dcddf05",
+      "patch_equals_target_diff_for_recorded_paths": true
+    }
+  },
+  "target_commit_changed_paths_from_recorded_base": [
+    "README.md",
+    "docs/data.md",
+    "docs/gpu-validation.md",
+    "docs/quickstart.md",
+    "docs/release-status.md",
+    "scripts/inference/qwen_edit_infer.py",
+    "scripts/inference/run_qwen_edit_infer.sh",
+    "tests/test_full_transformer.py"
+  ],
+  "system_prompt_review_reference": {
+    "path": "scripts/inference/prompts/system_prompt.txt",
+    "reference_commit": "e7c2e15c080396a1cb04e09fac0ae7a870eba261",
+    "sha256": "233138c38d3d7a52998a41d5219edc760ff739af07a45abe97447ee4b1e85be0",
+    "identical_to_recorded_base": true,
+    "remote_bytes_archived": false
+  },
+  "input_images": [
+    {
+      "archive_path": "PhotoMaster/bench/photomaster_bench/img/-3hNHA9I5qo.jpg",
+      "bytes": 579009,
+      "sha256": "db075a90cddcb31df886d6a3701f253fd1fcb2d5ce256e47b3d8f4591be36e9c",
+      "format": "JPEG",
+      "mode": "RGB",
+      "size": [
+        2048,
+        1536
+      ],
+      "exif_transposed_size": [
+        2048,
+        1536
+      ],
+      "verified_and_decoded": true,
+      "rgb_extrema": [
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          247
+        ]
+      ],
+      "rgb_stddev": [
+        56.6991,
+        55.0152,
+        55.0051
+      ]
+    },
+    {
+      "archive_path": "PhotoMaster/bench/photomaster_bench/img/-XIExTKngYE.jpg",
+      "bytes": 380253,
+      "sha256": "7a8eea6f7d5f385302e860b8a39e5ce19f56937040fd777c61608b140dfc8396",
+      "format": "JPEG",
+      "mode": "RGB",
+      "size": [
+        2048,
+        1365
+      ],
+      "exif_transposed_size": [
+        2048,
+        1365
+      ],
+      "verified_and_decoded": true,
+      "rgb_extrema": [
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ]
+      ],
+      "rgb_stddev": [
+        31.1728,
+        28.6884,
+        26.5377
+      ]
+    },
+    {
+      "archive_path": "PhotoMaster/bench/photomaster_bench/img/00000111_5270.png",
+      "bytes": 257509,
+      "sha256": "13dafaefe45d0f2a30d639862ee5b9c1d0ac36e900f102e62a18ce4a35d68db5",
+      "format": "JPEG",
+      "mode": "RGB",
+      "size": [
+        675,
+        900
+      ],
+      "exif_transposed_size": [
+        675,
+        900
+      ],
+      "verified_and_decoded": true,
+      "rgb_extrema": [
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ]
+      ],
+      "rgb_stddev": [
+        56.9079,
+        54.5549,
+        53.7405
+      ]
+    },
+    {
+      "archive_path": "PhotoMaster/bench/photomaster_bench/img/00000143_8300.png",
+      "bytes": 164171,
+      "sha256": "768f2e57f66121471d3f33928c6b79de7b53dba90351f1a79bb8d8bcb039295e",
+      "format": "JPEG",
+      "mode": "RGB",
+      "size": [
+        900,
+        900
+      ],
+      "exif_transposed_size": [
+        900,
+        900
+      ],
+      "verified_and_decoded": true,
+      "rgb_extrema": [
+        [
+          0,
+          245
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          252
+        ]
+      ],
+      "rgb_stddev": [
+        58.7067,
+        53.6591,
+        55.2636
+      ]
+    },
+    {
+      "archive_path": "PhotoMaster/bench/photomaster_bench/img/00000197_4980.png",
+      "bytes": 653482,
+      "sha256": "5138113913637fa6f3b25830b1978a4540d3ba98a64d31a70595b2297c67c531",
+      "format": "JPEG",
+      "mode": "RGB",
+      "size": [
+        1024,
+        1536
+      ],
+      "exif_transposed_size": [
+        1024,
+        1536
+      ],
+      "verified_and_decoded": true,
+      "rgb_extrema": [
+        [
+          0,
+          255
+        ],
+        [
+          1,
+          255
+        ],
+        [
+          0,
+          255
+        ]
+      ],
+      "rgb_stddev": [
+        76.4376,
+        83.527,
+        83.1186
+      ]
+    }
+  ],
+  "input_image_git_hash_comparison": [
+    {
+      "path": "bench/photomaster_bench/img/-3hNHA9I5qo.jpg",
+      "archive_sha256": "db075a90cddcb31df886d6a3701f253fd1fcb2d5ce256e47b3d8f4591be36e9c",
+      "target_sha256": "db075a90cddcb31df886d6a3701f253fd1fcb2d5ce256e47b3d8f4591be36e9c"
+    },
+    {
+      "path": "bench/photomaster_bench/img/-XIExTKngYE.jpg",
+      "archive_sha256": "7a8eea6f7d5f385302e860b8a39e5ce19f56937040fd777c61608b140dfc8396",
+      "target_sha256": "7a8eea6f7d5f385302e860b8a39e5ce19f56937040fd777c61608b140dfc8396"
+    },
+    {
+      "path": "bench/photomaster_bench/img/00000111_5270.png",
+      "archive_sha256": "13dafaefe45d0f2a30d639862ee5b9c1d0ac36e900f102e62a18ce4a35d68db5",
+      "target_sha256": "13dafaefe45d0f2a30d639862ee5b9c1d0ac36e900f102e62a18ce4a35d68db5"
+    },
+    {
+      "path": "bench/photomaster_bench/img/00000143_8300.png",
+      "archive_sha256": "768f2e57f66121471d3f33928c6b79de7b53dba90351f1a79bb8d8bcb039295e",
+      "target_sha256": "768f2e57f66121471d3f33928c6b79de7b53dba90351f1a79bb8d8bcb039295e"
+    },
+    {
+      "path": "bench/photomaster_bench/img/00000197_4980.png",
+      "archive_sha256": "5138113913637fa6f3b25830b1978a4540d3ba98a64d31a70595b2297c67c531",
+      "target_sha256": "5138113913637fa6f3b25830b1978a4540d3ba98a64d31a70595b2297c67c531"
+    }
+  ],
+  "runs": {
+    "autodl_h20_smoke_01": {
+      "expected_count": 1,
+      "settings": {
+        "RUN_NAME": "autodl_h20_smoke_01",
+        "GPU_MODE": "single",
+        "NUM_SAMPLES": "1",
+        "CUDA_VISIBLE_DEVICES": "0",
+        "MODEL_ROOT": "/root/autodl-tmp/PhotoMaster/models/ft_ckpts",
+        "BASE_MODEL": "/root/autodl-tmp/PhotoMaster/models/Qwen3-VL-32B-Instruct",
+        "FT_CKPT_PATH": "/root/autodl-tmp/PhotoMaster/models/ft_ckpts/i2i/photomaster_i2i.safetensors",
+        "SAVE_MODEL_NAME": "qwen_edit_images",
+        "INFERENCE_STEPS": "50",
+        "QWEN_OUTPUT_RESOLUTION": "1328",
+        "QWEN_VAE_INPUT_RESOLUTION": "1328",
+        "MAX_NEW_TOKENS": "2048",
+        "TEMPERATURE": "0.7",
+        "TOP_P": "0.8",
+        "TOP_K": "20",
+        "TRUE_CFG_SCALE": "4.0",
+        "SEED": "0",
+        "PHOTOMASTER_FULL_TRANSFORMER": "1",
+        "FT_CKPT_IS_FULL": "1"
+      },
+      "world_size": 1,
+      "vlm_records": 1,
+      "dit_records": 1,
+      "image_files": 1,
+      "records": [
+        {
+          "index": 1,
+          "save_name": "-3hNHA9I5qo.jpg",
+          "prompt_chars": 999,
+          "prompt_sha256": "93cebd12fdee5ff08ced92e124c5bd475925cc057ecad4587f5cdb2b08fd02f7",
+          "raw_output_json_parsed": true,
+          "issue_dimensions": 12,
+          "suggestion_dimensions": 10,
+          "strict_prompt_schema_deviations": [
+            {
+              "kind": "attribution_not_array",
+              "dimension": "F1 Background",
+              "detail_is_None": true,
+              "value_is_None_sentinel": true
+            }
+          ],
+          "generated_token_count": 907,
+          "inference_time_s": 60.28,
+          "ended_with_eos_token": true,
+          "hit_max_new_tokens": false,
+          "image": {
+            "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_smoke_01/qwen_edit_images/-3hNHA9I5qo.jpg",
+            "bytes": 170003,
+            "sha256": "87e5aa08a3d9228d16ea2830a78a2e432fabaf24c06d7c6f523d21510060c4f4",
+            "format": "JPEG",
+            "mode": "RGB",
+            "size": [
+              1536,
+              1152
+            ],
+            "exif_transposed_size": [
+              1536,
+              1152
+            ],
+            "verified_and_decoded": true,
+            "rgb_extrema": [
+              [
+                0,
+                255
+              ],
+              [
+                1,
+                255
+              ],
+              [
+                0,
+                240
+              ]
+            ],
+            "rgb_stddev": [
+              57.1727,
+              57.2559,
+              58.1397
+            ]
+          },
+          "expected_image_size": [
+            1536,
+            1152
+          ]
+        }
+      ],
+      "gpu": {
+        "sampling_type": "whole-card nvidia-smi samples; not allocator peaks or minimum VRAM",
+        "device_names": [
+          "NVIDIA H20"
+        ],
+        "device_indices": [
+          "0"
+        ],
+        "samples": 659,
+        "total_memory_mib": 97871,
+        "highest_observed_used_memory_mib": 65561,
+        "highest_observed_used_memory_gib": 64.024414,
+        "highest_memory_timestamp": "2026/10/13 19:05:42.392",
+        "utilization_min_percent": 0,
+        "utilization_max_percent": 100,
+        "utilization_mean_percent": 56.879,
+        "first_timestamp_no_timezone": "2026/10/13 19:02:20.331",
+        "last_timestamp_no_timezone": "2026/10/13 19:13:18.510",
+        "inferred_timestamp_timezone": "UTC+08:00, inferred from sequence timing",
+        "sample_span_seconds": 658.179,
+        "interval_seconds_min": 1.0,
+        "interval_seconds_median": 1.0,
+        "interval_seconds_max": 1.007
+      },
+      "timing": {
+        "sequence_started_at_utc": "2026-10-13T11:02:10.900134+00:00",
+        "sequence_ended_at_utc": "2026-10-13T11:13:18.574940+00:00",
+        "sequence_stage_seconds": 667.674806,
+        "whole_pipeline_shell_real_seconds": 658.182,
+        "vlm_script_total_seconds": 260,
+        "renderer_script_total_seconds": 398,
+        "renderer_model_load_seconds": 54.1,
+        "vlm_inference_times_seconds": [
+          60.28
+        ],
+        "vlm_inference_time_sum_seconds": 60.28,
+        "scope_note": "Whole pipeline includes loading, VLM, conversion and renderer. Renderer script includes model loading and output. Sequence stage also includes helper/provenance/post-check overhead. Denoising-only time unavailable."
+      },
+      "pipeline_log_sha256": "2d43dd96aa9ec61f1d1908776fee4ecee10f1888b5d185bf731435a06ed0ca58",
+      "guidance_scale_ignored_notice_count": 1
+    },
+    "autodl_h20_demo_05": {
+      "expected_count": 5,
+      "settings": {
+        "RUN_NAME": "autodl_h20_demo_05",
+        "GPU_MODE": "single",
+        "NUM_SAMPLES": "5",
+        "CUDA_VISIBLE_DEVICES": "0",
+        "MODEL_ROOT": "/root/autodl-tmp/PhotoMaster/models/ft_ckpts",
+        "BASE_MODEL": "/root/autodl-tmp/PhotoMaster/models/Qwen3-VL-32B-Instruct",
+        "FT_CKPT_PATH": "/root/autodl-tmp/PhotoMaster/models/ft_ckpts/i2i/photomaster_i2i.safetensors",
+        "SAVE_MODEL_NAME": "qwen_edit_images",
+        "INFERENCE_STEPS": "50",
+        "QWEN_OUTPUT_RESOLUTION": "1328",
+        "QWEN_VAE_INPUT_RESOLUTION": "1328",
+        "MAX_NEW_TOKENS": "2048",
+        "TEMPERATURE": "0.7",
+        "TOP_P": "0.8",
+        "TOP_K": "20",
+        "TRUE_CFG_SCALE": "4.0",
+        "SEED": "0",
+        "PHOTOMASTER_FULL_TRANSFORMER": "1",
+        "FT_CKPT_IS_FULL": "1"
+      },
+      "world_size": 1,
+      "vlm_records": 5,
+      "dit_records": 5,
+      "image_files": 5,
+      "records": [
+        {
+          "index": 1,
+          "save_name": "-3hNHA9I5qo.jpg",
+          "prompt_chars": 908,
+          "prompt_sha256": "cc0241eb9cf10e9bc31b11f0a01941a8d399be24541eaa6dd732a94651df97a1",
+          "raw_output_json_parsed": true,
+          "issue_dimensions": 12,
+          "suggestion_dimensions": 10,
+          "strict_prompt_schema_deviations": [
+            {
+              "kind": "attribution_not_array",
+              "dimension": "F1 Background",
+              "detail_is_None": true,
+              "value_is_None_sentinel": true
+            },
+            {
+              "kind": "attribution_not_array",
+              "dimension": "F2 Compositional Structure",
+              "detail_is_None": true,
+              "value_is_None_sentinel": true
+            }
+          ],
+          "generated_token_count": 820,
+          "inference_time_s": 51.86,
+          "ended_with_eos_token": true,
+          "hit_max_new_tokens": false,
+          "image": {
+            "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/-3hNHA9I5qo.jpg",
+            "bytes": 158380,
+            "sha256": "4ac1dbb78a09ad5fd1a08a503f9d162a7a44e7afda7cbb3dfa30945f496472a9",
+            "format": "JPEG",
+            "mode": "RGB",
+            "size": [
+              1536,
+              1152
+            ],
+            "exif_transposed_size": [
+              1536,
+              1152
+            ],
+            "verified_and_decoded": true,
+            "rgb_extrema": [
+              [
+                0,
+                255
+              ],
+              [
+                0,
+                255
+              ],
+              [
+                0,
+                235
+              ]
+            ],
+            "rgb_stddev": [
+              67.1653,
+              65.6782,
+              65.8199
+            ]
+          },
+          "expected_image_size": [
+            1536,
+            1152
+          ]
+        },
+        {
+          "index": 3,
+          "save_name": "-XIExTKngYE.jpg",
+          "prompt_chars": 1440,
+          "prompt_sha256": "9cbee43cd3de0d59ffc7a0ec86ba2a15fb5c487919c04ac46c82eecf282293c9",
+          "raw_output_json_parsed": true,
+          "issue_dimensions": 12,
+          "suggestion_dimensions": 10,
+          "strict_prompt_schema_deviations": [
+            {
+              "kind": "attribution_not_array",
+              "dimension": "F1 Background",
+              "detail_is_None": true,
+              "value_is_None_sentinel": true
+            }
+          ],
+          "generated_token_count": 1047,
+          "inference_time_s": 65.11,
+          "ended_with_eos_token": true,
+          "hit_max_new_tokens": false,
+          "image": {
+            "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/-XIExTKngYE.jpg",
+            "bytes": 94212,
+            "sha256": "c50b8b775d92ce57d0fa1ee9e1fb0f28633f90629f978ce32ed93a39d23c9ee2",
+            "format": "JPEG",
+            "mode": "RGB",
+            "size": [
+              1632,
+              1088
+            ],
+            "exif_transposed_size": [
+              1632,
+              1088
+            ],
+            "verified_and_decoded": true,
+            "rgb_extrema": [
+              [
+                0,
+                255
+              ],
+              [
+                0,
+                254
+              ],
+              [
+                0,
+                246
+              ]
+            ],
+            "rgb_stddev": [
+              24.7595,
+              20.5472,
+              18.8681
+            ]
+          },
+          "expected_image_size": [
+            1632,
+            1088
+          ]
+        },
+        {
+          "index": 6,
+          "save_name": "00000111_5270.png",
+          "prompt_chars": 849,
+          "prompt_sha256": "9545f56b5e30c2a2d6a65810f6c92671ec45e5c662827808b4cbf52b643bb85a",
+          "raw_output_json_parsed": true,
+          "issue_dimensions": 12,
+          "suggestion_dimensions": 10,
+          "strict_prompt_schema_deviations": [
+            {
+              "kind": "attribution_not_array",
+              "dimension": "F1 Background",
+              "detail_is_None": true,
+              "value_is_None_sentinel": true
+            }
+          ],
+          "generated_token_count": 819,
+          "inference_time_s": 50.63,
+          "ended_with_eos_token": true,
+          "hit_max_new_tokens": false,
+          "image": {
+            "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/00000111_5270.png",
+            "bytes": 2860700,
+            "sha256": "d54437aca23f27c859c5743dfefa0e77374876f300109ae47b544002289ba229",
+            "format": "PNG",
+            "mode": "RGB",
+            "size": [
+              1152,
+              1536
+            ],
+            "exif_transposed_size": [
+              1152,
+              1536
+            ],
+            "verified_and_decoded": true,
+            "rgb_extrema": [
+              [
+                0,
+                255
+              ],
+              [
+                0,
+                255
+              ],
+              [
+                0,
+                253
+              ]
+            ],
+            "rgb_stddev": [
+              59.8741,
+              57.2976,
+              57.1994
+            ]
+          },
+          "expected_image_size": [
+            1152,
+            1536
+          ]
+        },
+        {
+          "index": 10,
+          "save_name": "00000143_8300.png",
+          "prompt_chars": 977,
+          "prompt_sha256": "949ed8c3faee4456909c7952672fccb4cfe27dc80a3fb779e6fc1701a8b777c0",
+          "raw_output_json_parsed": true,
+          "issue_dimensions": 12,
+          "suggestion_dimensions": 10,
+          "strict_prompt_schema_deviations": [],
+          "generated_token_count": 997,
+          "inference_time_s": 61.46,
+          "ended_with_eos_token": true,
+          "hit_max_new_tokens": false,
+          "image": {
+            "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/00000143_8300.png",
+            "bytes": 2050677,
+            "sha256": "2ff5443b6026f544a6290be1bbdcf037e1b57b67fffad4d24923235333700270",
+            "format": "PNG",
+            "mode": "RGB",
+            "size": [
+              1328,
+              1328
+            ],
+            "exif_transposed_size": [
+              1328,
+              1328
+            ],
+            "verified_and_decoded": true,
+            "rgb_extrema": [
+              [
+                0,
+                243
+              ],
+              [
+                0,
+                239
+              ],
+              [
+                0,
+                221
+              ]
+            ],
+            "rgb_stddev": [
+              72.7762,
+              62.1598,
+              54.865
+            ]
+          },
+          "expected_image_size": [
+            1328,
+            1328
+          ]
+        },
+        {
+          "index": 12,
+          "save_name": "00000197_4980.png",
+          "prompt_chars": 919,
+          "prompt_sha256": "e145a372e5517fcab526f2386028672e55c3bb0a61854d9d472083fd7238ca0c",
+          "raw_output_json_parsed": true,
+          "issue_dimensions": 12,
+          "suggestion_dimensions": 10,
+          "strict_prompt_schema_deviations": [],
+          "generated_token_count": 897,
+          "inference_time_s": 55.84,
+          "ended_with_eos_token": true,
+          "hit_max_new_tokens": false,
+          "image": {
+            "archive_path": "PhotoMaster/bench/photomaster_bench/results/autodl_h20_demo_05/qwen_edit_images/00000197_4980.png",
+            "bytes": 1885004,
+            "sha256": "b0545f162b97d87da62917a9b891132c5236fa79c8611449e8723cf1b972b0df",
+            "format": "PNG",
+            "mode": "RGB",
+            "size": [
+              1088,
+              1632
+            ],
+            "exif_transposed_size": [
+              1088,
+              1632
+            ],
+            "verified_and_decoded": true,
+            "rgb_extrema": [
+              [
+                4,
+                255
+              ],
+              [
+                4,
+                255
+              ],
+              [
+                4,
+                255
+              ]
+            ],
+            "rgb_stddev": [
+              68.6882,
+              70.2733,
+              72.5642
+            ]
+          },
+          "expected_image_size": [
+            1088,
+            1632
+          ]
+        }
+      ],
+      "gpu": {
+        "sampling_type": "whole-card nvidia-smi samples; not allocator peaks or minimum VRAM",
+        "device_names": [
+          "NVIDIA H20"
+        ],
+        "device_indices": [
+          "0"
+        ],
+        "samples": 2188,
+        "total_memory_mib": 97871,
+        "highest_observed_used_memory_mib": 67781,
+        "highest_observed_used_memory_gib": 66.192383,
+        "highest_memory_timestamp": "2026/10/13 19:32:47.513",
+        "utilization_min_percent": 0,
+        "utilization_max_percent": 100,
+        "utilization_mean_percent": 85.493,
+        "first_timestamp_no_timezone": "2026/10/13 19:13:28.197",
+        "last_timestamp_no_timezone": "2026/10/13 19:49:55.785",
+        "inferred_timestamp_timezone": "UTC+08:00, inferred from sequence timing",
+        "sample_span_seconds": 2187.588,
+        "interval_seconds_min": 1.0,
+        "interval_seconds_median": 1.0,
+        "interval_seconds_max": 1.008
+      },
+      "timing": {
+        "sequence_started_at_utc": "2026-10-13T11:13:18.600824+00:00",
+        "sequence_ended_at_utc": "2026-10-13T11:49:56.801224+00:00",
+        "sequence_stage_seconds": 2198.2004,
+        "whole_pipeline_shell_real_seconds": 2188.534,
+        "vlm_script_total_seconds": 444,
+        "renderer_script_total_seconds": 1744,
+        "renderer_model_load_seconds": 30.8,
+        "vlm_inference_times_seconds": [
+          51.86,
+          65.11,
+          50.63,
+          61.46,
+          55.84
+        ],
+        "vlm_inference_time_sum_seconds": 284.9,
+        "scope_note": "Whole pipeline includes loading, VLM, conversion and renderer. Renderer script includes model loading and output. Sequence stage also includes helper/provenance/post-check overhead. Denoising-only time unavailable."
+      },
+      "pipeline_log_sha256": "2c069eb347bb85052526bc5e4fe297f7165b253a974d9facf18477ce6d885eff",
+      "guidance_scale_ignored_notice_count": 5
+    }
+  },
+  "warnings": [
+    {
+      "kind": "strict_raw_response_schema_deviations",
+      "records_affected": 4,
+      "deviation_fields": 5,
+      "details": [
+        {
+          "run": "autodl_h20_smoke_01",
+          "index": 1,
+          "deviations": [
+            {
+              "kind": "attribution_not_array",
+              "dimension": "F1 Background",
+              "detail_is_None": true,
+              "value_is_None_sentinel": true
+            }
+          ]
+        },
+        {
+          "run": "autodl_h20_demo_05",
+          "index": 1,
+          "deviations": [
+            {
+              "kind": "attribution_not_array",
+              "dimension": "F1 Background",
+              "detail_is_None": true,
+              "value_is_None_sentinel": true
+            },
+            {
+              "kind": "attribution_not_array",
+              "dimension": "F2 Compositional Structure",
+              "detail_is_None": true,
+              "value_is_None_sentinel": true
+            }
+          ]
+        },
+        {
+          "run": "autodl_h20_demo_05",
+          "index": 3,
+          "deviations": [
+            {
+              "kind": "attribution_not_array",
+              "dimension": "F1 Background",
+              "detail_is_None": true,
+              "value_is_None_sentinel": true
+            }
+          ]
+        },
+        {
+          "run": "autodl_h20_demo_05",
+          "index": 6,
+          "deviations": [
+            {
+              "kind": "attribution_not_array",
+              "dimension": "F1 Background",
+              "detail_is_None": true,
+              "value_is_None_sentinel": true
+            }
+          ]
+        }
+      ],
+      "impact": "All deviations are inactive F1/F2 Attribution values encoded as the string None, while the reference prompt schema uses arrays. JSON parsing, nonempty prompts, and current VLM-to-DiT conversion still pass. No claim of strict response-schema compliance."
+    },
+    {
+      "kind": "source_provenance_scope",
+      "details": "Recorded base is 01f7eed plus a two-file tracked patch. The patch exactly matches e7c2e15 for both inference files; recorded SHA-256 values for these two files and tests/test_full_transformer.py match e7c2e15. The helper copies preexisting REVISION/SOURCE_PATCH.diff/SOURCE_FILES.sha256; it does not freshly hash all executed files. Therefore source equivalence is established for recorded patch/hash content only, not independently for the complete remote filesystem or a pristine e7c2e15 checkout."
+    },
+    {
+      "kind": "system_prompt_provenance_limit",
+      "details": "Runtime VLM JSON and logs identify the system-prompt path. The actual remote prompt text was not included or hashed in the archive. Structural review is against e7c2e15 prompt, which is byte-identical to recorded base commit; remote prompt equality cannot be independently established."
+    }
+  ],
+  "secret_scan": {
+    "text_files_scanned": 41,
+    "literal_pattern_categories": [
+      "github_token",
+      "huggingface_token",
+      "openai_token",
+      "aws_access_id",
+      "private_key",
+      "credential_in_url"
+    ],
+    "potential_findings": [],
+    "scope": "Pattern scan, not a guarantee that no secrets exist. Matched values are never emitted."
+  },
+  "limitations": [
+    "No network or GPU used and no remote execution independently observed during this audit.",
+    "No model weight files are present; download-revisions.json and loader logs are reported evidence, not independent tensor-file hash verification.",
+    "Image readability, dimensions, and nonuniform pixels checked; no visual or aesthetic assessment performed.",
+    "6 output files across 2 runs cover 5 unique bundled inputs; this is not a 377-case benchmark or a paper-metric reproduction.",
+    "CSV peaks are whole-card sampled memory; approximately 1-second sampling can miss shorter spikes.",
+    "Runtime source hash files are pre-recorded export evidence, not a full runtime attestation."
+  ]
+}
