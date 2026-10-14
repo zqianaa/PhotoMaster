@@ -26,11 +26,11 @@ PhotoMaster helps photographers decide **what to do before taking the next shot*
 - **Inference code and five example inputs**, plus VLM and DiT training code and experiment configurations.
 - **PhotoMaster-Data:** 236,904 triplets reported in the paper, constructed with Forward Decision Transfer and Decision Inversion. See the [data guide](docs/data.md) for the distinction between paper statistics and the downloadable release.
 
-> **Release status:** the included five-image set is an inference demo, not the full 377-case PhotoMaster-Bench. Full metric reproduction needs the benchmark annotations and evaluation scripts. The GPU environment lock, exact hosted checkpoint mapping, and project licensing remain release tasks; see [release status](docs/release-status.md).
+> **Release status:** the hosted checkpoint mapping is documented, and one-image and five-image pipelines completed on a single H20. The included five-image set is an inference demo, not the full 377-case PhotoMaster-Bench. Raw evidence verification, visual review, an environment lock, project licensing and full benchmark reproduction remain release tasks; see the [GPU execution report](docs/gpu-validation.md) and [release status](docs/release-status.md).
 
 ## Try PhotoMaster
 
-The current model workers target Linux with NVIDIA CUDA. The paper reports inference on an 80 GB GPU; this is a reported setup, not a measured minimum requirement.
+The current model workers target Linux with NVIDIA CUDA. The recorded one-image and five-image runs used an H20 with 97,871 MiB total memory and reached a highest sampled whole-card usage of 67,781 MiB. See the [GPU execution report](docs/gpu-validation.md) for settings and measurement limits; other GPU memory capacities have not been verified. The paper reports inference on an 80 GB GPU, which is a paper-reported setup rather than a measured minimum requirement.
 
 ```bash
 git clone https://github.com/zqianaa/PhotoMaster.git
@@ -47,8 +47,9 @@ python scripts/check_setup.py --data-only
 Follow the [quick start](docs/quickstart.md) to place the base models and PhotoMaster checkpoints. With those files in place:
 
 ```bash
-# FT_CKPT_PATH must point to your downloaded PhotoMaster DiT checkpoint.
-export FT_CKPT_PATH=/absolute/path/to/photomaster-dit.safetensors
+# Use the complete published PhotoMaster transformer checkpoint.
+export FT_CKPT_PATH="$PWD/models/ft_ckpts/i2i/photomaster_i2i.safetensors"
+export FT_CKPT_IS_FULL=1
 python scripts/check_setup.py --ft-ckpt "$FT_CKPT_PATH"
 GPU_MODE=single RUN_NAME=photomaster_demo \
   bash scripts/inference/run_pipeline.sh vlm photomaster_bench
@@ -66,11 +67,11 @@ To use your own photo:
 
 ```bash
 python scripts/inference/prepare_input.py /path/to/photo.jpg --name demo_my_photo
-GPU_MODE=single RUN_NAME=photomaster_demo \
+FT_CKPT_IS_FULL=1 GPU_MODE=single RUN_NAME=photomaster_demo \
   bash scripts/inference/run_pipeline.sh vlm demo_my_photo
 ```
 
-Keep `FT_CKPT_PATH` exported for the full PhotoMaster pipeline. Without it, the renderer uses base Qwen-Image-Edit. Personal `demo_*` inputs and generated results are gitignored.
+Keep `FT_CKPT_PATH` exported and `FT_CKPT_IS_FULL=1` for the published complete checkpoint. This mode also supports omitting the base transformer weight files as described in the [quick start](docs/quickstart.md); partial checkpoints use the default loading mode with all base weights. Personal `demo_*` inputs and generated results are gitignored.
 
 ## How it works
 
@@ -98,6 +99,7 @@ These are paper-reported results, not measurements from the five bundled example
 | Task | Guide |
 |---|---|
 | Inference, checkpoint placement and troubleshooting | [Quick start](docs/quickstart.md) |
+| Single-GPU execution, recorded environment and measurement limits | [GPU execution report](docs/gpu-validation.md) |
 | Batch inference, distributed execution and parameters | [Inference reference](scripts/inference/README.md) |
 | VLM LoRA fine-tuning | [VLM training](scripts/vlm_train/README.md) |
 | DiT fine-tuning | [DiT training](scripts/dit_train/README.md) |

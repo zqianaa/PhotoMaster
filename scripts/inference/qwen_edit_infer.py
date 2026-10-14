@@ -55,6 +55,11 @@ def parse_args():
     parser.add_argument("--guidance-scale", type=float, default=1.0, help="Guidance scale")
     parser.add_argument("--ckpt-path", type=str, default="", help="Optional fine-tuned DIT .safetensors checkpoint")
     parser.add_argument(
+        "--full-transformer-checkpoint",
+        action="store_true",
+        help="Load --ckpt-path as a complete 2511 transformer, requiring all keys/shapes to match; skips base transformer weights.",
+    )
+    parser.add_argument(
         "--output-resolution",
         type=int,
         choices=(1024, 1328),
@@ -68,7 +73,10 @@ def parse_args():
         default=1328,
         help="Square-equivalent VAE input resolution; aspect ratio is copied from each input image.",
     )
-    return parser.parse_args()
+    args = parser.parse_args()
+    if args.full_transformer_checkpoint and not args.ckpt_path.endswith(".safetensors"):
+        parser.error("--full-transformer-checkpoint requires --ckpt-path to a complete .safetensors file")
+    return args
 
 
 def init_distributed():
@@ -188,6 +196,79 @@ def _strip_state_dict_prefix(state_dict: dict, prefix: str) -> dict:
     return state_dict
 
 
+def _validate_full_transformer_shapes(checkpoint_shapes: dict, expected_shapes: dict) -> None:
+    """Reject partial checkpoints and mismatched tensors before loading their data."""
+    missing = sorted(set(expected_shapes) - set(checkpoint_shapes))
+    unexpected = sorted(set(checkpoint_shapes) - set(expected_shapes))
+    mismatched = sorted(
+        key for key in set(expected_shapes) & set(checkpoint_shapes)
+        if tuple(checkpoint_shapes[key]) != tuple(expected_shapes[key])
+    )
+    if missing or unexpected or mismatched:
+        raise ValueError(
+            "Full transformer checkpoint must match every model key and shape: "
+            f"missing={len(missing)} {missing[:5]}, "
+            f"unexpected={len(unexpected)} {unexpected[:5]}, "
+            f"shape_mismatches={len(mismatched)} {mismatched[:5]}"
+        )
+
+
+def _assert_no_meta_tensors(model) -> None:
+    """Include unregistered tensor attributes such as Qwen's complex RoPE tables."""
+    meta_names = [
+        name for name, value in list(model.named_parameters()) + list(model.named_buffers())
+        if value.is_meta
+    ]
+    for module_name, module in model.named_modules():
+        for name, value in vars(module).items():
+            if torch.is_tensor(value) and value.is_meta:
+                meta_names.append(f"{module_name}.{name}".lstrip("."))
+    if meta_names:
+        raise RuntimeError(f"Full transformer still contains meta tensors: {meta_names[:10]}")
+
+
+def load_full_transformer(model_path: str, ckpt_path: str, rank: int):
+    """Load a complete PhotoMaster transformer without materializing base weights."""
+    from accelerate import init_empty_weights
+    from diffusers import QwenImageTransformer2DModel
+    from safetensors import safe_open
+
+    if not ckpt_path.endswith(".safetensors"):
+        raise ValueError("A full transformer checkpoint must be a .safetensors file")
+    config = QwenImageTransformer2DModel.load_config(
+        str(Path(model_path) / "transformer"), local_files_only=True
+    )
+    if config.get("zero_cond_t") is not True:
+        raise ValueError("A full PhotoMaster transformer requires the Qwen-Image-Edit-2511 zero_cond_t=true config")
+    # Keep unregistered RoPE constants on CPU; a global meta-device context
+    # would strand them on meta because they are absent from the state dict.
+    with init_empty_weights(include_buffers=False):
+        transformer = QwenImageTransformer2DModel.from_config(config)
+    if getattr(transformer, "zero_cond_t", None) is not True:
+        raise RuntimeError("Installed diffusers does not implement zero_cond_t; use diffusers 0.37.0 or a compatible version")
+
+    prefixes = ("module.", "pipe.dit.", "dit.", "transformer.")
+    with safe_open(ckpt_path, framework="pt", device="cpu") as checkpoint:
+        shapes = {key: checkpoint.get_slice(key).get_shape() for key in checkpoint.keys()}
+    for prefix in prefixes:
+        shapes = _strip_state_dict_prefix(shapes, prefix)
+    expected = {key: value.shape for key, value in transformer.state_dict().items()}
+    _validate_full_transformer_shapes(shapes, expected)
+
+    state_dict = _load_checkpoint_state_dict(ckpt_path)
+    for prefix in prefixes:
+        state_dict = _strip_state_dict_prefix(state_dict, prefix)
+    # assign=True materializes meta parameters from the checkpoint without a
+    # second initialized transformer allocation; strict=True forbids partial load.
+    transformer.load_state_dict(state_dict, strict=True, assign=True)
+    del state_dict
+    _assert_no_meta_tensors(transformer)
+    transformer.to(dtype=torch.bfloat16).eval().requires_grad_(False)
+    if rank == 0:
+        print(f"[Rank {rank}] Loaded full FT transformer: {len(expected)} keys/shapes matched, BF16, zero_cond_t=True; base transformer weights skipped")
+    return transformer
+
+
 def apply_ft_checkpoint(pipeline, ckpt_path: str, rank: int) -> None:
     """Apply a fine-tuned trainable-state checkpoint to the pipeline transformer."""
     if not ckpt_path:
@@ -292,10 +373,14 @@ def main():
     QwenImageEditPlusPipeline = load_qwen_image_edit_plus_pipeline_class()
     if is_main:
         print(f"Using vendored Qwen Edit pipeline: {QwenImageEditPlusPipeline.__module__}")
+    pipeline_kwargs = {}
+    if args.full_transformer_checkpoint:
+        pipeline_kwargs["transformer"] = load_full_transformer(args.model_path, args.ckpt_path, rank)
     pipeline = QwenImageEditPlusPipeline.from_pretrained(
-        args.model_path, torch_dtype=torch.bfloat16
+        args.model_path, torch_dtype=torch.bfloat16, **pipeline_kwargs
     )
-    apply_ft_checkpoint(pipeline, args.ckpt_path, rank)
+    if not args.full_transformer_checkpoint:
+        apply_ft_checkpoint(pipeline, args.ckpt_path, rank)
     pipeline.to(f"cuda:{local_rank}")
     pipeline.set_progress_bar_config(disable=True)
 

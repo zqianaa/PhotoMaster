@@ -21,6 +21,8 @@
 #   FT_CKPT_PATH     Optional fine-tuned DiT .safetensors checkpoint. Unset by default,
 #                    so the base model runs; the I2I training output lands under
 #                    <repo>/models/ft_ckpts/i2i/ (e.g. epoch-2.safetensors).
+#   FT_CKPT_IS_FULL  If 1, require a complete 2511 transformer checkpoint and skip
+#                    base transformer weights; transformer/config.json is still required (default: 0).
 #   SAVE_MODEL_NAME  Output subfolder name (default: qwen_edit_images)
 #   TRUE_CFG_SCALE   True CFG scale (default: 4.0)
 #   INFERENCE_STEPS  Number of inference steps (default: 50)
@@ -50,6 +52,7 @@ REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 
 MODEL_PATH="${MODEL_PATH:-${REPO_ROOT}/models/Qwen-Image-Edit-2511}"
 FT_CKPT_PATH="${FT_CKPT_PATH:-}"
+FT_CKPT_IS_FULL="${FT_CKPT_IS_FULL:-0}"
 SAVE_MODEL_NAME="${SAVE_MODEL_NAME:-qwen_edit_images}"
 TRUE_CFG_SCALE="${TRUE_CFG_SCALE:-4.0}"
 INFERENCE_STEPS="${INFERENCE_STEPS:-50}"
@@ -71,6 +74,7 @@ echo "============================================"
 echo "  Repo root:       $REPO_ROOT"
 echo "  Model path:      $MODEL_PATH"
 echo "  FT checkpoint:   ${FT_CKPT_PATH:-<none>}"
+echo "  Full FT weights: $FT_CKPT_IS_FULL"
 echo "  Bench:           $BENCH"
 echo "  Run name:        $RUN_NAME"
 echo "  JSONL:           $JSONL_PATH"
@@ -88,6 +92,14 @@ echo "============================================"
 # -----------------------------------------------------------------------
 # Validate
 # -----------------------------------------------------------------------
+if [[ "$FT_CKPT_IS_FULL" != "0" && "$FT_CKPT_IS_FULL" != "1" ]]; then
+    echo "[ERROR] FT_CKPT_IS_FULL must be 0 or 1."
+    exit 1
+fi
+if [[ "$FT_CKPT_IS_FULL" == "1" && "$FT_CKPT_PATH" != *.safetensors ]]; then
+    echo "[ERROR] FT_CKPT_IS_FULL=1 requires FT_CKPT_PATH to a complete .safetensors file."
+    exit 1
+fi
 if [ ! -d "$MODEL_PATH" ]; then
     echo "[ERROR] Qwen-Image-Edit-2511 weights not found: $MODEL_PATH"
     echo "        Place them under <repo>/models/ or set MODEL_PATH."
@@ -121,6 +133,9 @@ COMMON_ARGS=(
 
 if [ -n "$FT_CKPT_PATH" ]; then
     COMMON_ARGS+=(--ckpt-path "$FT_CKPT_PATH")
+fi
+if [ "$FT_CKPT_IS_FULL" = "1" ]; then
+    COMMON_ARGS+=(--full-transformer-checkpoint)
 fi
 
 if [ "$GPU_MODE" = "single" ]; then

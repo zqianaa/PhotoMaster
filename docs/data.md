@@ -2,9 +2,26 @@
 
 ## Resources and release scope
 
-The dataset resource is [qwmqza/PhotoMaster](https://huggingface.co/datasets/qwmqza/PhotoMaster). The exact uploaded file inventory, split counts, schema and revision must be verified against the hosted release before a one-command download/preparation recipe can be documented.
+The dataset resource is [qwmqza/PhotoMaster](https://huggingface.co/datasets/qwmqza/PhotoMaster). Its [file inventory at revision `94646f5fddcc5b9ba5e3c2c9c4d5cb0a84c0fdbd`](https://huggingface.co/datasets/qwmqza/PhotoMaster/tree/94646f5fddcc5b9ba5e3c2c9c4d5cb0a84c0fdbd) was verified on October 13, 2026: it is publicly accessible without an access request and contains 111 Parquet files, named `photomaster-00001-of-00111.parquet` through `photomaster-00111-of-00111.parquet`. No dataset card or license file is included at that revision.
 
-The counts below describe the paper's data engine. They are not a verified count of the current Hugging Face upload.
+The official Hugging Face Dataset Viewer reports **186,405 rows** in the `default` configuration's `train` split, with 85,047,026,604 bytes of original Parquet files (about 85.05 GB). Its [info response](https://datasets-server.huggingface.co/info?dataset=qwmqza%2FPhotoMaster) has an `x-revision` header matching the revision above; the [split inventory](https://datasets-server.huggingface.co/splits?dataset=qwmqza%2FPhotoMaster) and [size report](https://datasets-server.huggingface.co/size?dataset=qwmqza%2FPhotoMaster) agree on the single exposed split and row count. These are service-reported metadata, not a local scan of all shards.
+
+The reported top-level schema is:
+
+| Column | Type |
+|---|---|
+| `sample_id` | string |
+| `split` | string |
+| `unsplash_photo_id` | string |
+| `unsplash_url` | string |
+| `series_idx` | string |
+| `label_idx` | string |
+| `frame_webp` | binary |
+| `frame_json` | string |
+
+The row-level `split` column is distinct from the Hugging Face `train` split. Its values/distribution, the internal structure of `frame_json`, and the mapping from rows to paired images and PDT supervision have not yet been validated. A training-preparation recipe must establish that mapping before claiming reproduction.
+
+The counts below describe the paper's data engine. The paper's **236,904 triplets** and the upload's **186,405 rows** are different reported totals; their relationship needs an explicit explanation before treating one uploaded row as one paper triplet.
 
 | Category | Decision Inversion | Forward Decision Transfer | Total |
 |---|---:|---:|---:|
