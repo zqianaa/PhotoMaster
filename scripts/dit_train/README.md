@@ -24,6 +24,11 @@ config/
 model, writes the DeepSpeed and Accelerate configs, and calls the trainer via
 `accelerate launch`.
 
+> This is the research training setup. The shipped experiment references
+> `config/data/photomaster_data.yaml`, which is not included. Prepare the intended
+> dataset configuration and use absolute `DATA_CONFIG_PATH` and `OUTPUT_PATH`
+> values before launching. See [release status](../../docs/release-status.md).
+
 ## Prerequisites
 
 | Requirement | Default location | Override |
@@ -46,16 +51,16 @@ Source an experiment file to set hyperparameters, then run the launch script:
 
 ```bash
 # Single node (8 GPUs)
-source config/experiments/photomaster_i2i_train.env
+set -a; source config/experiments/photomaster_i2i_train.env; set +a
 bash scripts/dit_train/launch_qwen_edit_2511_train.sh
 
 # Multi-node — set the rendezvous vars before launching on each node
-NNODES=4 NODE_RANK=<rank> MASTER_ADDR=<node0-ip> \
-source config/experiments/photomaster_i2i_train.env
+set -a; source config/experiments/photomaster_i2i_train.env; set +a
+export NNODES=4 NODE_RANK=<rank> MASTER_ADDR=<node0-ip>
 bash scripts/dit_train/launch_qwen_edit_2511_train.sh
 ```
 
-Any variable in the experiment file can be overridden by exporting it first:
+Source and export the experiment settings first; override values on the launch command:
 
 ```bash
 OUTPUT_PATH=/path/to/output \

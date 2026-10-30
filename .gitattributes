@@ -1,0 +1,4 @@
+# Preserve the byte hashes of archived execution evidence across checkouts.
+docs/validation/h20-20261013/** -text
+# A unified diff uses one space for empty context lines; preserve the original patch.
+docs/validation/h20-20261013/*/SOURCE_PATCH.diff whitespace=-blank-at-eol

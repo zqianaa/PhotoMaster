@@ -1,0 +1,21 @@
+{
+  "RUN_NAME": "autodl_h20_demo_05",
+  "GPU_MODE": "single",
+  "NUM_SAMPLES": "5",
+  "CUDA_VISIBLE_DEVICES": "0",
+  "MODEL_ROOT": "/root/autodl-tmp/PhotoMaster/models/ft_ckpts",
+  "BASE_MODEL": "/root/autodl-tmp/PhotoMaster/models/Qwen3-VL-32B-Instruct",
+  "FT_CKPT_PATH": "/root/autodl-tmp/PhotoMaster/models/ft_ckpts/i2i/photomaster_i2i.safetensors",
+  "SAVE_MODEL_NAME": "qwen_edit_images",
+  "INFERENCE_STEPS": "50",
+  "QWEN_OUTPUT_RESOLUTION": "1328",
+  "QWEN_VAE_INPUT_RESOLUTION": "1328",
+  "MAX_NEW_TOKENS": "2048",
+  "TEMPERATURE": "0.7",
+  "TOP_P": "0.8",
+  "TOP_K": "20",
+  "TRUE_CFG_SCALE": "4.0",
+  "SEED": "0",
+  "PHOTOMASTER_FULL_TRANSFORMER": "1",
+  "FT_CKPT_IS_FULL": "1"
+}

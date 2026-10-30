@@ -5,7 +5,7 @@ Inference script for Qwen3-VL on the photography critique benchmark.
 Loads a Qwen3-VL model and runs inference on samples defined in a metadata.json file.
 Each sample contains an original image.
 
-The analysis framework is defined in an external [REDACTED] file
+The analysis framework is defined in an external system prompt file
 (default: prompts/system_prompt.txt, resolved next to this script).
 The script generates JSON output with three fields: Issues_Analysis, Professional_Suggestions,
 and Image_Editing_Prompt.
@@ -25,7 +25,7 @@ Usage:
         --data-dir /path/to/bench \
         --output-json /path/to/output/results.json
 
-    # Single GPU – custom [REDACTED] file
+    # Single GPU – custom system prompt file
     python vlm_infer.py \
         --model-path /path/to/model \
         --data-dir /path/to/bench \
@@ -56,6 +56,11 @@ import torch
 import torch.distributed as dist
 from PIL import Image
 from transformers import Qwen3VLForConditionalGeneration, AutoProcessor
+
+if __package__:
+    from .vlm_output import format_output_to_string, parse_vlm_output
+else:
+    from vlm_output import format_output_to_string, parse_vlm_output
 
 
 # ---------------------------------------------------------------------------
@@ -126,7 +131,7 @@ def parse_args():
         "--system-prompt-file",
         type=str,
         default=str(DEFAULT_SYSTEM_PROMPT),
-        help=f"Path to the [REDACTED] file (default: {DEFAULT_SYSTEM_PROMPT}).",
+        help=f"Path to the system prompt file (default: {DEFAULT_SYSTEM_PROMPT}).",
     )
     parser.add_argument(
         "--max-new-tokens",
@@ -200,7 +205,7 @@ def parse_args():
 
 
 def load_system_prompt(file_path: str) -> str:
-    """Load [REDACTED] from file."""
+    """Load system prompt from file."""
     with open(file_path, "r", encoding="utf-8") as f:
         content = f.read().strip()
     return content
@@ -499,35 +504,6 @@ def process_vision_info(messages):
         return images if images else None, None
 
 
-def format_output_to_string(output_value) -> str:
-    """
-    Convert the output value (list, dict, or string) into a single formatted string.
-
-    Args:
-        output_value: Can be a list, dict, or string from the model output
-
-    Returns:
-        A formatted string representation of the output
-    """
-    if isinstance(output_value, str):
-        return output_value
-    elif isinstance(output_value, list):
-        if not output_value:
-            return ""
-        formatted_items = []
-        for item in output_value:
-            if isinstance(item, dict):
-                dimension = item.get("Dimension", "")
-                detail = item.get("Detail", "")
-                if detail and detail.lower() != "none":
-                    formatted_items.append(f"【{dimension}】{detail}")
-            else:
-                formatted_items.append(str(item))
-        return "\n".join(formatted_items)
-    else:
-        return str(output_value)
-
-
 def shard_data(data: list, rank: int, world_size: int) -> list:
     """Shard data across GPUs. Each GPU gets a contiguous chunk."""
     total_samples = len(data)
@@ -583,14 +559,14 @@ def main():
     rank, world_size, local_rank = setup_distributed()
 
     try:
-        # Load [REDACTED]
+        # Load system prompt
         try:
             system_prompt = load_system_prompt(args.system_prompt_file)
             if rank == 0:
-                print(f"Loaded [REDACTED] from: {args.system_prompt_file}")
+                print(f"Loaded system prompt from: {args.system_prompt_file}")
         except FileNotFoundError:
             if rank == 0:
-                print(f"ERROR: [REDACTED] file not found: {args.system_prompt_file}")
+                print(f"ERROR: system prompt file not found: {args.system_prompt_file}")
             sys.exit(1)
 
         data_dir = Path(args.data_dir)
@@ -690,40 +666,13 @@ def main():
 
             # Build result record - start with all fields from original metadata
             result = dict(sample)  # Copy all fields from metadata
-            result["Issues_Analysis"] = ""
-            result["Professional_Suggestions"] = ""
-            result["Image_Editing_Prompt"] = ""
+            result.update(parse_vlm_output(output_text))
+            if "parse_error" in result:
+                print(f"[Rank {rank}]   WARNING: Invalid VLM output: {result['parse_error']}")
+                print(f"[Rank {rank}]   Raw output: {output_text[:200]}...")
+            elif "error" not in result:
+                print(f"[Rank {rank}]   Successfully parsed JSON output")
 
-            parsed_output = {}
-
-            if not output_text.startswith("ERROR"):
-                try:
-                    # Try to extract JSON from the output.
-                    json_text = output_text.strip()
-                    if json_text.startswith("```"):
-                        lines = json_text.split("\n")
-                        json_text = "\n".join(lines[1:-1]) if len(lines) > 2 else json_text
-                        json_text = json_text.replace("```json", "").replace("```", "").strip()
-
-                    parsed_output = json.loads(json_text)
-                    print(f"[Rank {rank}]   Successfully parsed JSON output")
-                except json.JSONDecodeError as e:
-                    print(f"[Rank {rank}]   WARNING: Failed to parse JSON output: {e}")
-                    print(f"[Rank {rank}]   Raw output: {output_text[:200]}...")
-                    parsed_output = {"parse_error": str(e), "raw_output": output_text}
-
-                # Extract the three required fields
-                issues_analysis = parsed_output.get("Issues_Analysis", "")
-                professional_suggestions = parsed_output.get("Professional_Suggestions", "")
-                image_editing_prompt = parsed_output.get("Image_Editing_Prompt", "")
-
-                result["Issues_Analysis"] = format_output_to_string(issues_analysis)
-                result["Professional_Suggestions"] = format_output_to_string(professional_suggestions)
-                result["Image_Editing_Prompt"] = image_editing_prompt if isinstance(image_editing_prompt, str) else str(image_editing_prompt)
-            else:
-                parsed_output = {"error": output_text}
-
-            result["model_output_raw"] = output_text
             result["inference_time_s"] = round(elapsed, 2)
             result["processed_by_rank"] = rank
 
@@ -738,12 +687,6 @@ def main():
                 if args.save_raw_outputs:
                     result["model_output_with_special_tokens"] = inference_info["output_text_with_special_tokens"]
                     result["generated_token_ids"] = inference_info["generated_token_ids"]
-
-            # Add parse error if exists
-            if "parse_error" in parsed_output:
-                result["parse_error"] = parsed_output["parse_error"]
-            if "error" in parsed_output:
-                result["error"] = parsed_output["error"]
 
             results.append(result)
 

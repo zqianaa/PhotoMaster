@@ -1,0 +1,13 @@
+# Inference dependencies only. Install a CUDA-compatible PyTorch build first.
+# This is a dependency list, not a GPU-validated environment lock.
+# Run scripts/check_setup.py to check the required model and pipeline imports.
+torch
+torchvision
+transformers
+diffusers
+accelerate
+peft
+safetensors
+Pillow
+numpy
+huggingface_hub
