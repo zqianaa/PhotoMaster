@@ -2,7 +2,7 @@
 
 This checklist records completed preparation and remaining public-release work. One-image and five-image pipelines completed on a single H20; the [GPU execution report](gpu-validation.md) records the evidence, tested source and limitations. This does not establish that the repository is public or that paper results have been reproduced.
 
-## Prepared in this branch
+## Prepared in this repository
 
 - [x] Paper-aligned project overview with teaser, architecture, resource links and citation.
 - [x] Quick-start instructions distinguishing base models from PhotoMaster fine-tuned components.

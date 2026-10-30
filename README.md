@@ -30,12 +30,12 @@ PhotoMaster helps photographers decide **what to do before taking the next shot*
 
 ## Try PhotoMaster
 
-These instructions currently target `codex/open-source-release` (PR #1), which has not been merged into `main`.
+These instructions target the `main` branch.
 
 The current model workers target Linux with NVIDIA CUDA. The recorded one-image and five-image runs used an H20 with 97,871 MiB total memory and reached a highest sampled whole-card usage of 67,781 MiB. See the [GPU execution report](docs/gpu-validation.md) for settings and measurement limits; other GPU memory capacities have not been verified. The paper reports inference on an 80 GB GPU, which is a paper-reported setup rather than a measured minimum requirement.
 
 ```bash
-git clone --branch codex/open-source-release https://github.com/zqianaa/PhotoMaster.git
+git clone --branch main https://github.com/zqianaa/PhotoMaster.git
 cd PhotoMaster
 # Follow the recorded Linux/Python 3.12/CUDA 12.8 installation recipe below.
 # After activating that environment, check the included inputs without weights:
